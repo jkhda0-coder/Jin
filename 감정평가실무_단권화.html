@@ -1,0 +1,2058 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>감정평가실무 답안 목차집 · 단권화</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500;700;900&family=Noto+Sans+KR:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F4F1E9;
+    --bg-alt:#EAE5D6;
+    --paper:#FFFDF8;
+    --ink:#1D2333;
+    --ink-soft:#4B5468;
+    --ink-faint:#8A8F9E;
+    --navy:#152036;
+    --navy-2:#22315A;
+    --gold:#A9803D;
+    --gold-soft:#C9A15F;
+    --gold-line:#D8B978;
+    --line:#DCD5C0;
+    --danger:#8C3B2E;
+    --radius:2px;
+    --sidebar-w:300px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:"Noto Sans KR",sans-serif;
+    font-size:15.5px;
+    line-height:1.72;
+  }
+  ::selection{background:var(--gold-soft);color:var(--navy);}
+
+  /* ===== Layout shell ===== */
+  .shell{display:flex;min-height:100vh;}
+
+  /* ===== Sidebar ===== */
+  .sidebar{
+    width:var(--sidebar-w);
+    flex-shrink:0;
+    background:var(--navy);
+    color:#EDE7D6;
+    position:sticky;
+    top:0;
+    height:100vh;
+    overflow-y:auto;
+    padding:0 0 40px;
+    border-right:6px solid var(--gold);
+  }
+  .sidebar-head{
+    padding:26px 22px 18px;
+    border-bottom:1px solid rgba(237,231,214,.18);
+    position:sticky; top:0;
+    background:var(--navy);
+    z-index:5;
+  }
+  .sidebar-eyebrow{
+    font-family:"IBM Plex Mono",monospace;
+    font-size:11px;
+    letter-spacing:.18em;
+    color:var(--gold-soft);
+    text-transform:uppercase;
+    margin:0 0 6px;
+  }
+  .sidebar-title{
+    font-family:"Noto Serif KR",serif;
+    font-weight:700;
+    font-size:20px;
+    line-height:1.4;
+    margin:0 0 4px;
+  }
+  .sidebar-sub{
+    font-size:12.5px;
+    color:#B9B4A0;
+    margin:0 0 16px;
+  }
+  .search-wrap{position:relative;}
+  .search-wrap input{
+    width:100%;
+    padding:10px 12px 10px 34px;
+    background:rgba(255,255,255,.07);
+    border:1px solid rgba(237,231,214,.25);
+    border-radius:var(--radius);
+    color:#F5F2E7;
+    font-family:"Noto Sans KR",sans-serif;
+    font-size:13px;
+    outline:none;
+  }
+  .search-wrap input::placeholder{color:#A8A290;}
+  .search-wrap input:focus{border-color:var(--gold-soft);}
+  .search-wrap svg{position:absolute;left:10px;top:50%;transform:translateY(-50%);width:14px;height:14px;stroke:#A8A290;}
+  .search-count{font-size:11px;color:var(--gold-soft);margin-top:6px;font-family:"IBM Plex Mono",monospace;min-height:14px;}
+
+  .toc{padding:10px 10px 10px;}
+  .toc-group{margin-bottom:2px;}
+  .toc-group-btn{
+    width:100%;
+    display:flex;
+    align-items:center;
+    gap:8px;
+    background:none;
+    border:none;
+    color:#EDE7D6;
+    font-family:"Noto Sans KR",sans-serif;
+    font-weight:700;
+    font-size:12.5px;
+    letter-spacing:.02em;
+    text-align:left;
+    padding:10px 10px;
+    cursor:pointer;
+    border-radius:var(--radius);
+  }
+  .toc-group-btn:hover{background:rgba(255,255,255,.06);}
+  .toc-group-btn .tag{
+    font-family:"IBM Plex Mono",monospace;
+    font-size:10.5px;
+    color:var(--navy);
+    background:var(--gold-soft);
+    padding:2px 6px;
+    border-radius:2px;
+    flex-shrink:0;
+  }
+  .toc-group-btn .chev{margin-left:auto;font-size:11px;color:#A8A290;transition:transform .18s;}
+  .toc-group.open .chev{transform:rotate(90deg);}
+  .toc-list{list-style:none;margin:0;padding:2px 0 8px 14px;display:none;border-left:1px solid rgba(237,231,214,.16);}
+  .toc-group.open .toc-list{display:block;}
+  .toc-list li a{
+    display:flex;
+    gap:8px;
+    align-items:baseline;
+    padding:6px 10px;
+    color:#C9C4B2;
+    text-decoration:none;
+    font-size:12.8px;
+    border-radius:var(--radius);
+  }
+  .toc-list li a .num{font-family:"IBM Plex Mono",monospace;color:var(--gold-soft);font-size:11px;flex-shrink:0;}
+  .toc-list li a:hover{background:rgba(255,255,255,.07);color:#fff;}
+  .toc-list li a.active{background:rgba(201,161,95,.18);color:#fff;font-weight:600;}
+  .toc-list li a.hide, .toc-group.hide{display:none !important;}
+
+  /* ===== Main ===== */
+  .main{flex:1;min-width:0;}
+  .topbar{
+    position:sticky; top:0; z-index:20;
+    background:var(--paper);
+    border-bottom:1px solid var(--line);
+    padding:14px 46px;
+    display:flex;
+    align-items:center;
+    gap:16px;
+    justify-content:space-between;
+  }
+  .topbar-left{display:flex; align-items:center; gap:12px;}
+  .menu-btn{
+    display:none;
+    background:var(--navy); color:#fff; border:none;
+    width:36px; height:36px; border-radius:var(--radius); cursor:pointer;
+    font-size:16px;
+  }
+  .breadcrumb{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--ink-faint);}
+  .breadcrumb b{color:var(--navy-2);}
+  .print-btn{
+    font-family:"Noto Sans KR",sans-serif;
+    font-size:12.5px;
+    font-weight:600;
+    color:var(--navy);
+    background:var(--bg-alt);
+    border:1px solid var(--line);
+    padding:8px 14px;
+    border-radius:var(--radius);
+    cursor:pointer;
+  }
+  .print-btn:hover{background:var(--gold-soft);border-color:var(--gold-soft);}
+
+  .hero{
+    padding:56px 46px 34px;
+    border-bottom:1px solid var(--line);
+    background:
+      linear-gradient(180deg, rgba(21,32,54,.03), transparent 70%);
+  }
+  .hero-eyebrow{
+    font-family:"IBM Plex Mono",monospace;
+    font-size:12px; letter-spacing:.2em; text-transform:uppercase;
+    color:var(--gold); margin:0 0 14px;
+    display:flex; align-items:center; gap:10px;
+  }
+  .hero-eyebrow::before{content:"";width:34px;height:1px;background:var(--gold);display:inline-block;}
+  .hero h1{
+    font-family:"Noto Serif KR",serif;
+    font-weight:900;
+    font-size:clamp(28px,4vw,42px);
+    line-height:1.28;
+    margin:0 0 14px;
+    color:var(--navy);
+  }
+  .hero p{max-width:640px;color:var(--ink-soft); margin:0 0 22px; font-size:14.5px;}
+  .hero-meta{display:flex; flex-wrap:wrap; gap:10px 26px; font-size:12.5px; color:var(--ink-faint); font-family:"IBM Plex Mono",monospace;}
+  .hero-meta span b{color:var(--navy-2);}
+
+  .content{padding:38px 46px 120px; max-width:920px;}
+
+  .group-heading{
+    margin:56px 0 20px;
+    display:flex; align-items:baseline; gap:14px;
+  }
+  .group-heading:first-child{margin-top:8px;}
+  .group-heading .gtag{
+    font-family:"IBM Plex Mono",monospace;
+    font-weight:600; font-size:13px;
+    background:var(--navy); color:#EDE7D6;
+    padding:5px 10px; border-radius:2px; flex-shrink:0;
+  }
+  .group-heading h2{
+    font-family:"Noto Serif KR",serif;
+    font-size:19px; font-weight:700; color:var(--navy);
+    margin:0; padding-bottom:8px;
+    border-bottom:2px solid var(--gold-line);
+    flex:1;
+  }
+
+  /* ===== Topic card ===== */
+  .topic{
+    display:flex;
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    margin-bottom:18px;
+    scroll-margin-top:80px;
+    overflow:hidden;
+  }
+  .topic-tab{
+    flex-shrink:0;
+    width:64px;
+    background:var(--navy-2);
+    color:#F1EAD4;
+    display:flex; flex-direction:column; align-items:center; justify-content:flex-start;
+    padding:18px 0;
+    position:relative;
+  }
+  .topic-tab .n{font-family:"IBM Plex Mono",monospace; font-weight:600; font-size:22px; line-height:1;}
+  .topic-tab .l{writing-mode:vertical-rl; text-orientation:mixed; font-size:10px; letter-spacing:.14em; color:var(--gold-soft); margin-top:10px;}
+  .topic-body{flex:1; min-width:0; padding:22px 26px 26px;}
+  .topic-body h2{
+    font-family:"Noto Serif KR",serif;
+    font-size:18.5px; font-weight:700; color:var(--navy);
+    margin:0 0 16px; padding-bottom:12px; border-bottom:1px dashed var(--line);
+  }
+  .topic-body h2 .kw{
+    display:inline-block; margin-left:10px; font-family:"Noto Sans KR",sans-serif;
+    font-size:11px; font-weight:600; color:var(--gold); border:1px solid var(--gold-line);
+    padding:2px 7px; border-radius:20px; vertical-align:middle;
+  }
+
+  .block{margin:0 0 16px;}
+  .block > p.lead, p.plain{margin:6px 0; color:var(--ink);}
+  .note{color:var(--ink-soft); font-size:13.6px;}
+
+  /* nested outline lists */
+  ol.roman, ol.num, ol.paren, ol.parennum{margin:0 0 6px; padding-left:0; list-style:none;}
+  ol.roman{counter-reset:romanC;}
+  ol.roman > li{counter-increment:romanC; position:relative; padding:8px 0 8px 40px; margin-top:2px;}
+  ol.roman > li::before{
+    content: counter(romanC, upper-roman);
+    position:absolute; left:0; top:6px;
+    min-width:24px; text-align:center;
+    font-family:"IBM Plex Mono",monospace; font-weight:700; font-size:12px;
+    background:var(--navy); color:#fff; padding:3px 0; border-radius:3px;
+  }
+  ol.roman > li > .htitle{font-weight:700; color:var(--navy-2); display:block; margin-bottom:4px;}
+
+  ol.num{counter-reset:numC; margin-left:6px;}
+  ol.num > li{counter-increment:numC; position:relative; padding:4px 0 4px 28px;}
+  ol.num > li::before{content: counter(numC) "."; position:absolute; left:0; font-weight:700; color:var(--gold);}
+
+  ol.paren{counter-reset:parenC; margin-left:6px;}
+  ol.paren > li{counter-increment:parenC; position:relative; padding:3px 0 3px 34px;}
+  ol.paren > li::before{content: "(" counter(parenC) ")"; position:absolute; left:0; color:var(--ink-soft); font-size:13px;}
+
+  ol.parennum{counter-reset:pnC; margin-left:6px;}
+  ol.parennum > li{counter-increment:pnC; position:relative; padding:2px 0 2px 26px;}
+  ol.parennum > li::before{content: counter(pnC) ")"; position:absolute; left:0; color:var(--ink-faint); font-size:12.6px;}
+
+  .mark{color:var(--ink-soft);}
+  .ref{color:var(--gold); font-weight:600;}
+
+  .formula{
+    background:var(--bg-alt);
+    border-left:3px solid var(--gold);
+    padding:10px 14px;
+    margin:8px 0;
+    font-family:"IBM Plex Mono",monospace;
+    font-size:13px;
+    color:var(--navy-2);
+    overflow-x:auto;
+    white-space:nowrap;
+  }
+  .frac{display:inline-flex; flex-direction:column; vertical-align:middle; text-align:center; margin:0 5px; font-size:12px;}
+  .frac .num{border-bottom:1px solid currentColor; padding:0 5px 2px;}
+  .frac .den{padding:2px 5px 0;}
+
+  .callout{
+    background:#FBF6E9;
+    border:1px solid var(--gold-line);
+    border-radius:var(--radius);
+    padding:10px 14px;
+    font-size:13.4px;
+    color:var(--ink-soft);
+    margin:8px 0;
+  }
+  .callout b{color:var(--danger);}
+
+  table.cf{border-collapse:collapse; width:100%; margin:10px 0; font-size:13px;}
+  table.cf th, table.cf td{border:1px solid var(--line); padding:6px 10px; text-align:center;}
+  table.cf th{background:var(--bg-alt); color:var(--navy-2);}
+
+  .back-top{
+    position:fixed; right:32px; bottom:32px;
+    width:44px; height:44px; border-radius:50%;
+    background:var(--navy); color:#EDE7D6;
+    display:flex; align-items:center; justify-content:center;
+    text-decoration:none; font-size:18px;
+    box-shadow:0 6px 18px rgba(21,32,54,.35);
+    opacity:0; pointer-events:none; transition:opacity .2s;
+    z-index:30;
+  }
+  .back-top.show{opacity:1; pointer-events:auto;}
+
+  footer.doc-footer{
+    padding:30px 46px 60px; color:var(--ink-faint); font-size:12px; border-top:1px solid var(--line);
+    font-family:"IBM Plex Mono",monospace;
+  }
+
+  @media (max-width:980px){
+    .sidebar{
+      position:fixed; left:0; top:0; z-index:40; transform:translateX(-100%);
+      transition:transform .22s; width:86vw; max-width:340px;
+    }
+    .sidebar.open{transform:translateX(0);}
+    .menu-btn{display:inline-block;}
+    .hero,.content,.topbar{padding-left:20px; padding-right:20px;}
+    .breadcrumb{display:none;}
+  }
+
+  @media print{
+    .sidebar,.topbar,.back-top,.menu-btn{display:none !important;}
+    .main{width:100%;}
+    .topic{break-inside:avoid; box-shadow:none;}
+    body{background:#fff;}
+  }
+</style>
+</head>
+<body>
+
+<div class="shell">
+
+  <!-- ============ SIDEBAR / TOC ============ -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-head">
+      <p class="sidebar-eyebrow">단권화 · 목차집</p>
+      <h1 class="sidebar-title">감정평가실무<br>답안 목차집</h1>
+      <p class="sidebar-sub">S+감정평가실무연습 · 2차 기본문제 (유도은 편저 / 박문각) — 전 75항목 단권화</p>
+      <div class="search-wrap">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+        <input type="text" id="searchBox" placeholder="항목·키워드 검색 (예: 원가법, 광업권)">
+      </div>
+      <div class="search-count" id="searchCount"></div>
+    </div>
+
+    <nav class="toc" id="tocRoot"></nav>
+  </aside>
+
+  <!-- ============ MAIN ============ -->
+  <div class="main">
+    <div class="topbar">
+      <div class="topbar-left">
+        <button class="menu-btn" id="menuBtn" aria-label="목차 열기">☰</button>
+        <span class="breadcrumb">감정평가실무 <b>답안 목차집</b> / 단권화</span>
+      </div>
+      <button class="print-btn" onclick="window.print()">인쇄 · PDF 저장</button>
+    </div>
+
+    <section class="hero">
+      <p class="hero-eyebrow">2차 기본문제 · 답안 목차집</p>
+      <h1>감정평가실무 답안 목차집<br>— 단권화 정리본</h1>
+      <p>원서(박문각 「S+감정평가실무연습」 기본문제 답안 목차집)의 75개 항목을 평가방법론 · 물건별 평가 · 목적별 평가 · 보상평가 흐름으로 재배열한 단권화 자료입니다. 왼쪽 목차에서 그룹을 펼쳐 항목으로 바로 이동하거나, 검색창에서 키워드로 찾아보세요.</p>
+      <div class="hero-meta">
+        <span>총 <b>75</b>개 항목</span>
+        <span>총 <b>16</b>개 그룹</span>
+        <span>근거법령 <b>감칙 · 토지보상법 · 도시정비법 등</b></span>
+      </div>
+    </section>
+
+    <div class="content" id="contentRoot">
+
+      <!-- ================================================================ -->
+      <!-- GROUP A -->
+      <div class="group-heading" data-group="A"><span class="gtag">A</span><h2>답안작성 총론</h2></div>
+
+      <article class="topic" id="t01" data-title="감정평가실무 답안작성 FAQ" data-group="A">
+        <div class="topic-tab"><span class="n">01</span><span class="l">FAQ</span></div>
+        <div class="topic-body">
+          <h2>감정평가실무 답안작성 FAQ</h2>
+          <ol class="roman">
+            <li><span class="htitle">평가개요는 어떻게 써야 하는지?</span>본건은 (평가대상)에 대한 (평가목적)의 감정평가로서 기준시점으로 평가한다.</li>
+            <li><span class="htitle">띄어쓰기는 어떻게 해야 하는지</span>일반적으로는 목차가 끝나면 한 칸씩 띄워 쓰면 된다. 다만 로마자가 끝나면 두 칸을 띄우는 것이 일반적이다. 다만, 문제의 배점이나 목차의 중요성에 따라 달리할 수 있다.</li>
+            <li><span class="htitle">주석은 어떻게 달아야 하는지</span>특별한 논점이 없이 단순 계산을 추가하는 경우에는 주석을 달아 처리한다.</li>
+            <li><span class="htitle">계산기는 어떻게 쳐야 하는지?</span>계산기는 한 문제가 종료되면 치는 것을 원칙으로 하지만, 풀이 중간에 계산결과가 필요한 경우에는 풀이 중에도 계산기를 쳐야 한다. 한편, 4문제를 모두 풀이 후 계산기를 사용하는 경우도 있으므로 수험생들이 계산기를 연습해 본 후 본인에게 맞는 방식을 선택하면 된다.</li>
+            <li><span class="htitle">규정은 어디까지 써야 하는지?</span>법령(감정평가법, 감정평가에 관한 규칙)은 세부적인 조항까지 기재하는 것이 타당하다. 단, 실무기준이나 각종 지침 등 법규성이 없는 규정은 내용만 기술하면 문제가 없을 것이다.</li>
+            <li><span class="htitle">글씨는 얼마나 크게 써야 하는지?</span>글씨는 작은 것보다 큰 것이 좋다. 일반적으로 한 줄에 22자에서 25자 사이를 적정한 글씨 크기로 본다.</li>
+            <li><span class="htitle">답안지(20페이지)를 다 채워야 하는지?</span>채점의 기준에는 답안의 분량은 의미가 없는 것으로 판단된다. 따라서 답안지를 모두 채울 필요는 없으나, 문항별 배점이 있는데 그 배점과 너무 큰 차이의 답안작성은 자칫 써야 할 사항을 쓰지 않는 경우가 생길 수 있으므로 이 점을 유의해야 하겠다.</li>
+          </ol>
+        </div>
+      </article>
+
+      <!-- ================================================================ -->
+      <!-- GROUP B : 토지 평가방법론 -->
+      <div class="group-heading" data-group="B"><span class="gtag">B</span><h2>토지 평가방법론</h2></div>
+
+      <article class="topic" id="t02" data-title="공시지가기준법" data-group="B">
+        <div class="topic-tab"><span class="n">02</span><span class="l">토지</span></div>
+        <div class="topic-body">
+          <h2>공시지가기준법</h2>
+          <ol class="roman">
+            <li><span class="htitle">평가개요</span>본건은 토지에 대한 ○○목적의 감정평가로서 20××.××.××.을 기준시점으로 감정평가한다.<br><span class="ref">감칙 제14조</span> 공시지가기준법 기준</li>
+            <li><span class="htitle">비교표준지 선정</span>선정기준(<span class="ref">감칙 제14조 제2항</span>) : 인근지역 내 용도지역·이용상황·주변환경 유사 표준지 선정(용이주인)</li>
+            <li><span class="htitle">시점수정치</span></li>
+            <li><span class="htitle">지역 및 개별요인 비교</span>
+              <ol class="num"><li>지역요인 비교치</li><li>개별요인 비교치</li></ol>
+            </li>
+            <li><span class="htitle">그 밖의 요인 보정치 결정</span>
+              <ol class="num"><li>평가선례(거래사례) 선정</li><li>격차율 분석</li><li>그 밖의 요인 보정치 결정</li></ol>
+            </li>
+            <li><span class="htitle">평가액 결정</span>
+              <div class="formula">표준지공시지가(원/㎡) × 시점수정 × 지역요인 × 개별요인 × 그 밖의 요인 ≒ 공시지가기준가액(원/㎡)</div>
+            </li>
+          </ol>
+        </div>
+      </article>
+
+      <article class="topic" id="t03" data-title="거래사례비교법(토지)" data-group="B">
+        <div class="topic-tab"><span class="n">03</span><span class="l">토지</span></div>
+        <div class="topic-body">
+          <h2>거래사례비교법(토지)</h2>
+          <ol class="roman">
+            <li><span class="htitle">평가개요</span>본건은 토지에 대한 시가참조 목적의 감정평가로서 기준시점으로 감정평가한다.<br>의의 : 대상물건과 가치형성요인이 같거나 비슷한 물건의 거래사례와 비교하여 대상물건의 현황에 맞게 사정보정, 시점수정, 가치형성요인 비교 등의 과정을 거쳐 대상물건의 가액을 산정하는 감정평가방법(<span class="ref">감칙 제2조</span>)</li>
+            <li><span class="htitle">거래사례의 선정</span></li>
+            <li><span class="htitle">거래사례의 토지가격</span>
+              <ol class="num">
+                <li>사정보정 — 거래사례에 특수한 사정이 반영되어 있는 등 수집된 거래사례의 가격이 적절하지 못한 경우에 그러한 사정이 없었을 경우의 적절한 가격수준으로 정상화하는 과정(실무기준)</li>
+                <li>사례토지의 거래가격 — 배분법</li>
+              </ol>
+            </li>
+            <li><span class="htitle">시점수정치</span></li>
+            <li><span class="htitle">지역 및 개별요인 비교</span></li>
+            <li><span class="htitle">비준가액 결정</span>
+              <div class="formula">거래사례의 토지가격(원/㎡) × 사정보정 × 시점수정 × 지역요인 × 개별요인 ≒ 비준가액(원/㎡)</div>
+            </li>
+          </ol>
+        </div>
+      </article>
+
+      <article class="topic" id="t06" data-title="조성원가법(토지)" data-group="B">
+        <div class="topic-tab"><span class="n">06</span><span class="l">토지</span></div>
+        <div class="topic-body">
+          <h2>조성원가법(토지)</h2>
+          <ol class="roman">
+            <li><span class="htitle">평가개요</span>본건은 토지에 대한 시가참조 목적의 감정평가로서 기준시점으로 감정평가한다.</li>
+            <li><span class="htitle">준공시점의 토지가격</span>
+              <ol class="num">
+                <li>소지매입비의 현가
+                  <ol class="paren"><li>실제 매입가격</li><li>소지상태의 감정평가액</li><li>결정 — 준공시점으로 미래가치(투하자본수익률)</li></ol>
+                </li>
+                <li>조성공사비의 현가 — 토지에 화체되는 비용, 조성공사에 관련된 일체비용의 미래가치(투하자본수익률)</li>
+                <li>준공시점의 토지가치 — 소지매입비현가 + 조성공사비 등</li>
+              </ol>
+            </li>
+            <li><span class="htitle">토지의 감정평가액</span>
+              <div class="formula">준공시점 토지가치 × 성숙도보정<sup>*</sup> ≒ 토지평가액(원/㎡<sup>**</sup>)</div>
+              <p class="note">* 지가변동률로 성숙도 수정 &nbsp;&nbsp; ** 유효택지면적당 가격</p>
+            </li>
+          </ol>
+        </div>
+      </article>
+
+      <article class="topic" id="t07" data-title="토지의 개발법(건축 후 분양)" data-group="B">
+        <div class="topic-tab"><span class="n">07</span><span class="l">토지</span></div>
+        <div class="topic-body">
+          <h2>토지의 개발법(건축 후 분양)</h2>
+          <ol class="roman">
+            <li><span class="htitle">평가개요</span></li>
+            <li><span class="htitle">분양수입의 현가</span>
+              <ol class="num"><li>개발계획의 확정 — 제시된 개발계획을 기준함(최유효이용에 대한 판단 필요)</li><li>분양수입의 총액</li><li>분양수입의 현가</li></ol>
+            </li>
+            <li><span class="htitle">개발비용의 현가</span>
+              <ol class="num"><li>건축공사비 현가</li><li>그 밖의 비용의 현가</li></ol>
+            </li>
+            <li><span class="htitle">토지의 감정평가액</span><div class="formula">분양수입의 현가 − 개발비용의 현가 = 토지의 개발가치(원/㎡)</div></li>
+          </ol>
+        </div>
+      </article>
+
+      <article class="topic" id="t08" data-title="토지의 개발법(택지조성 후 분양)" data-group="B">
+        <div class="topic-tab"><span class="n">08</span><span class="l">토지</span></div>
+        <div class="topic-body">
+          <h2>토지의 개발법(택지조성 후 분양)</h2>
+          <ol class="roman">
+            <li><span class="htitle">평가개요</span></li>
+            <li><span class="htitle">분양수입의 현가</span>
+              <ol class="num"><li>개발계획의 확정 — 용지조성 및 분양계획 확정(최유효이용의 판단)</li><li>분양수입의 총액 — 조성된 택지의 분양가(원/㎡)</li><li>분양수입의 현가</li></ol>
+            </li>
+            <li><span class="htitle">개발비용의 현가</span>
+              <ol class="num"><li>조성공사비 현가</li><li>그 밖의 비용의 현가</li></ol>
+            </li>
+            <li><span class="htitle">토지의 감정평가액</span><div class="formula">용지 분양수입의 현가 − 개발비용의 현가 = 토지의 평가액(원/㎡)</div></li>
+          </ol>
+        </div>
+      </article>
+
+      <article class="topic" id="t11" data-title="회귀분석법" data-group="B">
+        <div class="topic-tab"><span class="n">11</span><span class="l">토지</span></div>
+        <div class="topic-body">
+          <h2>회귀분석법</h2>
+          <ol class="roman">
+            <li><span class="htitle">변수의 설정</span>독립변수, 종속변수</li>
+            <li><span class="htitle">사례의 선택</span>통계적으로 무의미한 사례 배제</li>
+            <li><span class="htitle">회귀식 분석</span><div class="formula">y = ax + b &nbsp; (R² = ** %로 유의하다)</div></li>
+            <li><span class="htitle">평가액 결정</span></li>
+          </ol>
+        </div>
+      </article>
+
+      <article class="topic" id="t12" data-title="대쌍비교법" data-group="B">
+        <div class="topic-tab"><span class="n">12</span><span class="l">토지</span></div>
+        <div class="topic-body">
+          <h2>대쌍비교법</h2>
+          <ol class="roman">
+            <li><span class="htitle">처리방침</span></li>
+            <li><span class="htitle">시점수정치 및 시점수정 후 사례가격</span>
+              <ol class="num"><li>시점수정치 <ol class="paren"><li>사례선정</li><li>시점수정치</li></ol></li><li>시점수정 후 사례가격</li></ol>
+            </li>
+            <li><span class="htitle">A요인의 비교치 산정</span>
+              <ol class="num"><li>사례선정 : (A요인을 제외한 다른 요인이 대등한 사례의 쌍(Pair)을 선정)</li><li>비교치 산정</li></ol>
+            </li>
+            <li><span class="htitle">B요인의 비교치 산정</span>
+              <ol class="num"><li>사례선정 : (B요인을 제외한 다른 요인이 대등한 사례의 쌍(Pair)을 선정)</li><li>비교치 산정</li></ol>
+            </li>
+            <li><span class="htitle">C요인의 비교치 산정</span>
+              <ol class="num"><li>사례선정 : (C요인을 제외한 다른 요인이 대등한 사례의 쌍(Pair)을 선정)</li><li>비교치 산정</li></ol>
+            </li>
+            <li><span class="htitle">사례수정 및 시산가치 조정</span></li>
+          </ol>
+        </div>
+      </article>
+
+      <article class="topic" id="t17" data-title="토지잔여법" data-group="B">
+        <div class="topic-tab"><span class="n">17</span><span class="l">토지</span></div>
+        <div class="topic-body">
+          <h2>토지잔여법</h2>
+          <ol class="roman">
+            <li><span class="htitle">순수익 결정</span>
+              <ol class="num"><li>유효총수익</li><li>운영경비</li><li>(상각전/후) 순수익 결정 <ol class="paren"><li>운영경비에 감가상각비 미포함 시 : 상각전 순수익</li><li>운영경비에 감가상각비 포함 시 : 상각후 순수익</li></ol></li></ol>
+            </li>
+            <li><span class="htitle">토지귀속순수익 결정</span>
+              <ol class="num"><li>건물의 가격</li><li>건물귀속순수익 — 건물의 가격 × 건물(상각전/상각후)환원이율 = 건물귀속순수익</li><li>토지귀속순수익 — (상각전/상각후) 순수익 − 건물귀속순수익 = 토지귀속순수익(원/㎡)</li></ol>
+            </li>
+            <li><span class="htitle">토지의 수익가치</span><div class="formula">토지귀속순수익 ÷ 토지환원이율 = 토지의 수익가치(원/㎡)</div></li>
+          </ol>
+        </div>
+      </article>
+
+      <article class="topic" id="t19" data-title="부동산잔여법" data-group="B">
+        <div class="topic-tab"><span class="n">19</span><span class="l">토지</span></div>
+        <div class="topic-body">
+          <h2>부동산잔여법</h2>
+          <ol class="roman">
+            <li><span class="htitle">순수익 결정</span>
+              <ol class="num"><li>유효총수익</li><li>운영경비</li><li>순수익 결정 : 유효총수익 − 운영경비</li></ol>
+            </li>
+            <li><span class="htitle">복합부동산 가치</span>
+              <ol class="num"><li>건물잔존내용연수 중 순수익 현가합 — 순수익은 건물잔존기간 중 불변을 가정</li><li>기말토지복귀가치 — 기말토지가치는 불변을 가정</li><li>복합부동산의 가치</li></ol>
+            </li>
+          </ol>
+        </div>
+      </article>
+
+      <article class="topic" id="t20" data-title="임대사례비교법" data-group="B">
+        <div class="topic-tab"><span class="n">20</span><span class="l">임료</span></div>
+        <div class="topic-body">
+          <h2>임대사례비교법</h2>
+          <ol class="roman">
+            <li><span class="htitle">평가개요</span><span class="ref">「감정평가에 관한 규칙」 제22조</span> 임대사례비교법 원칙<br>의의 : 대상물건과 가치형성요인이 같거나 비슷한 물건의 임대사례와 비교하여 대상물건의 현황에 맞게 사정보정, 시점수정, 가치형성요인 비교 등의 과정을 거쳐 대상물건의 임대료를 산정하는 감정평가방법(감칙 제2조)</li>
+            <li><span class="htitle">임대사례의 선정</span>
+              <ol class="num"><li>임대사례 선정기준 — 위치적·물적 유사성, 시점수정가능, 사정보정가능, 계약내용 유사(실무기준)</li><li>임대사례의 선정</li><li>임대사례의 실질임료 — 보증금부 월세의 경우 전월세 전환율(혹은 보증금 운용이율)을 통하여 실질임대료로 변환(전유면적 또는 임대면적(㎡)당 실질임대료)</li></ol>
+            </li>
+            <li><span class="htitle">비준임대료의 결정</span>
+              <div class="formula">사례의 실질임대료(원/전유 또는 임대㎡) × 사정보정 × 시점수정(임대료지수, 생산자물가지수 등) × 지역요인 비교 × 개별요인 비교 ≒ 비준임대료</div>
+            </li>
+          </ol>
+        </div>
+      </article>
+
+      <article class="topic" id="t21" data-title="적산법" data-group="B">
+        <div class="topic-tab"><span class="n">21</span><span class="l">임료</span></div>
+        <div class="topic-body">
+          <h2>적산법</h2>
+          <ol class="roman">
+            <li><span class="htitle">평가개요</span>「감정평가에 관한 규칙」 제22조 임대사례비교법 원칙. 단, 인근에 적정 임대사례 없어 적산법 적용<br>의의 : 기초가액에 기대이율을 곱한 기대수익에 대상물건을 계속하여 임대하는 데 필요한 경비를 더하여 임대료를 산정하는 방법(감칙 제2조)</li>
+            <li><span class="htitle">기초가액의 결정</span>(적산법평가의 기초가 되는 대상물건의 가치, 실무기준)
+              <ol class="num"><li>복합부동산 : 토지(공시지가기준법, 거래사례비교법), 건물(원가법)</li><li>구분건물(거래사례비교법, 원가법)</li></ol>
+              <p class="callout">※ 순환논리 모순으로 인하여 <b>수익환원법은 적용하지 않는다.</b></p>
+            </li>
+            <li><span class="htitle">기대이율의 결정</span>(기초가액에 대하여 기대되는 임대수익의 비율, 실무기준)
+              <ol class="num"><li>실무적 적산법(대부분) — 지역 및 대상물건 특성을 반영하되 기대이율 적용기준율표 등을 참고하여 실현가능한 율로 정함</li><li>이론적 적산법 — 시장추출법, 요소구성법, 투자결합법, CAPM활용, 대체경쟁자산 수익률 고려 등 / 유형별·이용상황별 기대이율표 활용 / 기타 문제에서 제시되는 기대이율 활용</li></ol>
+            </li>
+            <li><span class="htitle">필요제경비</span>(임차인이 사용·수익할 수 있도록 임대인이 대상물건을 적절하게 유지·관리하는 데에 필요한 비용, 실무기준)<br>감가상각비, 유지관리비, 조세공과금, 손해보험료, 대손준비금, 공실손실상당액, 정상운영자금이자(실무기준)</li>
+            <li><span class="htitle">적산임대료</span><div class="formula">기초가액 × 기대이율 + 필요제경비 = 적산임대료</div></li>
+          </ol>
+        </div>
+      </article>
+
+      <article class="topic" id="t22" data-title="수익분석법" data-group="B">
+        <div class="topic-tab"><span class="n">22</span><span class="l">임료</span></div>
+        <div class="topic-body">
+          <h2>수익분석법</h2>
+          <ol class="roman">
+            <li><span class="htitle">평가개요</span>임대사례비교법 원칙, 단 인근에 적정 임대사례가 없으며 기초가액 산정의 어려움 등으로 인하여 수익분석법을 기준함.<br>의의 : 일반기업 경영에 의하여 산출된 총수익을 분석하여 대상물건이 일정한 기간에 산출할 것으로 기대되는 순수익에 대상물건을 계속하여 임대하는 데 필요한 경비를 더하여 대상물건의 임대료를 산정하는 감정평가방법(감칙 제2조)</li>
+            <li><span class="htitle">수익순임대료의 결정</span>
+              <ol class="num"><li>매출액 추정 — 해당 시설물의 임대 후 운용에 따른 사업수입</li><li>운영경비 등 추정 — 사업수입의 창출을 위하여 소요되는 경비(적정이윤 포함)</li><li>순수익(수익순임대료) 결정 — 매출액 − 운영경비</li></ol>
+            </li>
+            <li><span class="htitle">필요제경비</span></li>
+            <li><span class="htitle">수익임대료의 결정</span><div class="formula">수익순임대료 + 필요제경비 = 수익임대료</div></li>
+          </ol>
+        </div>
+      </article>
+
+      <!-- ================================================================ -->
+      <!-- GROUP C : 건물 평가방법론 -->
+      <div class="group-heading" data-group="C"><span class="gtag">C</span><h2>건물 평가방법론</h2></div>
+
+      <article class="topic" id="t04" data-title="원가법(건물)" data-group="C">
+        <div class="topic-tab"><span class="n">04</span><span class="l">건물</span></div>
+        <div class="topic-body">
+          <h2>원가법(건물)</h2>
+          <ol class="roman">
+            <li><span class="htitle">평가개요</span><span class="ref">감칙 제15조</span> 원가법 원칙</li>
+            <li><span class="htitle">재조달원가 결정</span>(대상물건을 기준시점에 재생산하거나 재취득하는 데 필요한 적정원가의 총액, 실무기준)
+              <ol class="num">
+                <li>직접법 : 본건 건축비(도급계약서 등)기준 <ol class="paren"><li>건물과 무관한 항목 배제</li><li>시점수정 − 건축비지수</li><li>재조달원가 결정</li></ol></li>
+                <li>간접법 <ol class="paren"><li>표준단가</li><li>부대설비보정단가</li><li>재조달원가</li></ol></li>
+              </ol>
+            </li>
+            <li><span class="htitle">감가수정</span>(재조달원가를 감액하여야 할 요인이 있는 경우에 물리적 감가, 기능적 감가, 또는 경제적 감가 등을 고려하여 그에 해당하는 금액을 재조달원가에서 공제하여 기준시점에 있어서의 대상물건의 가액을 적정화하는 작업, 감칙 제2조)
+              <ol class="num"><li>내용연수법</li><li>시장추출법</li><li>분해법</li><li>임대료손실환원법</li><li>관찰감가법</li></ol>
+            </li>
+            <li><span class="htitle">건물의 평가액 결정</span><div class="formula">재조달원가 − 감가수정 = 건물의 평가액</div></li>
+          </ol>
+        </div>
+      </article>
+
+      <article class="topic" id="t05" data-title="감가수정 - 분해법" data-group="C">
+        <div class="topic-tab"><span class="n">05</span><span class="l">건물</span></div>
+        <div class="topic-body">
+          <h2>감가수정 - 분해법</h2>
+          <ol class="roman">
+            <li><span class="htitle">재조달원가</span>
+              <ol class="num"><li>주체부분</li><li>부대부분</li><li>재조달원가</li></ol>
+            </li>
+            <li><span class="htitle">감가수정</span>
+              <ol class="num">
+                <li>물리적 감가 <ol class="paren"><li>치유가능 : 즉시치유비용</li><li>치유불능 <ol class="parennum"><li>주체부분</li><li>부대부분 <span class="note">※ 재조달원가 범위 내 치유비용 제외 → 이중감가 배제</span></li></ol></li><li>계</li></ol></li>
+                <li>기능적 감가 <span class="note">※ 각 항목별 치유타당성 검토</span>
+                  <ol class="paren">
+                    <li>항목 #1 (과소) <ol class="parennum"><li>타당성 : 조소득승수법, 직접환원법, PVAF − 치유비용 &gt; 0 (타당성 있음)</li><li>감가액 : 치유비용(손실현재가치) − 신축 시 설치비</li></ol></li>
+                    <li>항목 #2 (과대) <ol class="parennum"><li>타당성 : 조소득승수법, 직접환원법, PVAF − 치유비용 &gt; 0 (타당성 있음)</li><li>감가액 : 치유비용(손실현재가치) + 과잉부분의 가격(재조달원가 − 감가상각)</li></ol></li>
+                    <li>항목 #3 (대체) <ol class="parennum"><li>타당성 : 조소득승수법, 직접환원법, PVAF − 치유비용 &gt; 0 (타당성 있음)</li><li>감가액 : 치유비용(손실현재가치) + 대체부분의 가격(재조달원가 − 감가상각) − 신축 시 설치비</li></ol></li>
+                    <li>계</li>
+                  </ol>
+                </li>
+                <li>경제적 감가 <span class="note">※ 토지와 건물분으로 배분하여 건물분만 계산</span></li>
+                <li>감가액(계)</li>
+              </ol>
+            </li>
+            <li><span class="htitle">적산가액</span><div class="formula">재조달원가 − 감가수정</div></li>
+          </ol>
+        </div>
+      </article>
+
+      <article class="topic" id="t09" data-title="거래사례비교법(건물)" data-group="C">
+        <div class="topic-tab"><span class="n">09</span><span class="l">건물</span></div>
+        <div class="topic-body">
+          <h2>거래사례비교법(건물)</h2>
+          <ol class="roman">
+            <li><span class="htitle">평가개요</span></li>
+            <li><span class="htitle">거래사례의 선택</span>건물의 구조, 용도, 규모, 사용승인시점(연식) 등이 유사한 것</li>
+            <li><span class="htitle">거래사례의 건물가격</span>
+              <ol class="num"><li>정상거래가격 — 사정보정</li><li>거래사례의 토지가치 — 거래시점 당시의 토지가격</li><li>거래사례의 건물가격 — 정상거래가격 − 거래사례의 토지가치</li></ol>
+            </li>
+            <li><span class="htitle">시점수정치</span>생산자물가지수, 건축비지수 등</li>
+            <li><span class="htitle">개별요인 비교치</span>건물의 잔가율에 대한 비교 포함</li>
+            <li><span class="htitle">건물의 비준가액</span><div class="formula">사례 건물가격 × 사정보정 × 시점수정 × 개별요인(잔가율 포함) ≒ 건물의 비준가액</div></li>
+          </ol>
+        </div>
+      </article>
+
+      <article class="topic" id="t18" data-title="건물잔여법" data-group="C">
+        <div class="topic-tab"><span class="n">18</span><span class="l">건물</span></div>
+        <div class="topic-body">
+          <h2>건물잔여법</h2>
+          <ol class="roman">
+            <li><span class="htitle">순수익 결정</span>
+              <ol class="num"><li>유효총수익</li><li>운영경비</li><li>(상각전/후) 순수익 결정 <ol class="paren"><li>운영경비에 감가상각비 미포함 시 : 상각전 순수익</li><li>운영경비에 감가상각비 포함 시 : 상각후 순수익</li></ol></li></ol>
+            </li>
+            <li><span class="htitle">건물귀속순수익 결정</span>
+              <ol class="num"><li>토지의 가격</li><li>토지귀속순수익 — 토지의 가격 × 토지환원이율</li><li>건물귀속순수익 — (상각전/상각후) 순수익 − 토지귀속순수익</li></ol>
+            </li>
+            <li><span class="htitle">건물의 수익가치</span><div class="formula">건물귀속(상각전/상각후)순수익 ÷ 건물(상각전/상각후)환원이율 = 건물의 수익가치</div></li>
+          </ol>
+        </div>
+      </article>
+
+      <!-- ================================================================ -->
+      <!-- GROUP D : 토지·건물 일괄평가 -->
+      <div class="group-heading" data-group="D"><span class="gtag">D</span><h2>토지·건물 일괄평가</h2></div>
+
+      <article class="topic" id="t10" data-title="일괄거래사례비교법(토지·건물)" data-group="D">
+        <div class="topic-tab"><span class="n">10</span><span class="l">일괄</span></div>
+        <div class="topic-body">
+          <h2>일괄거래사례비교법(토지·건물)</h2>
+          <p class="lead"><b>[토지·건물의 비교방법]</b></p>
+          <ol class="roman">
+            <li><span class="htitle">거래사례 선택</span>본건과 용도지역, 건물의 용도, 사용승인일, 규모가 유사한 거래사례 선택</li>
+            <li><span class="htitle">토지, 건물의 가격구성비율</span>(거래시점)
+              <ol class="num"><li>토지가격 구성비율</li><li>건물가격 구성비율</li></ol>
+            </li>
+            <li><span class="htitle">요인비교치</span>
+              <ol class="num"><li>토지요인 비교치 — 시점수정(지가변동률) × 지역요인 × 개별요인</li><li>건물요인 비교치 — 시점수정(건축비지수 등) × 개별요인(잔가율 포함)</li></ol>
+            </li>
+            <li><span class="htitle">일체 비준가액</span>
+              <div class="formula">거래가격 × 사정보정 × (토지가격 구성비 × 토지요인 비교치 + 건물가격 구성비 × 건물요인 비교치) × 일체품등비교 ≒ 비준가액</div>
+            </li>
+          </ol>
+          <p class="lead" style="margin-top:20px;"><b>[일괄비교방법]</b></p>
+          <ol class="roman">
+            <li><span class="htitle">거래사례 선택</span>본건과 용도지역, 건물의 용도, 사용승인일, 규모가 유사한 거래사례 선택</li>
+            <li><span class="htitle">시점수정치</span>자본수익률(오피스, 매장용건물 등) 또는 그 밖의 시점수정자료</li>
+            <li><span class="htitle">가치형성요인 비교</span>해당 부동산의 용도에 따른 가치형성요인 비교(물류창고, 업무시설, 숙박시설 등)</li>
+            <li><span class="htitle">일체 비준가액</span><div class="formula">거래가격(원/건물㎡) × 사정보정 × 시점수정 × 가치형성요인비교 ≒ 비준가액(원/건물㎡)</div></li>
+          </ol>
+        </div>
+      </article>
+
+      <!-- ================================================================ -->
+      <!-- GROUP E : 수익환원법 (DCF) -->
+      <div class="group-heading" data-group="E"><span class="gtag">E</span><h2>수익환원법 · 현금흐름할인</h2></div>
+
+      <article class="topic" id="t13" data-title="수익환원법(직접환원법)" data-group="E">
+        <div class="topic-tab"><span class="n">13</span><span class="l">수익</span></div>
+        <div class="topic-body">
+          <h2>수익환원법(직접환원법)</h2>
+          <ol class="roman">
+            <li><span class="htitle">의의</span>단일기간의 순수익을 적절한 환원율로 환원하여 대상물건의 가액을 산정하는 방법(실무기준)
+              <p class="note">순수익의 산정(대상물건에 귀속하는 적절한 수익으로서 유효총수익에서 운영경비를 공제하여 산정, 실무기준)</p>
+              <ol class="num">
+                <li>가능총수익 산정 — 본건의 임대차내역 기준(직접법) / 임대사례 및 임대료수준 참작(간접법)</li>
+                <li>유효총수익 산정 — 유효총수익 = 가능총수익 × (1 − 표준적 공실률)</li>
+                <li>운영경비 산정 — 본건의 경비내역 참조(직접법), 영업경비비율(간접법) / 유효총수입 대비 일정비율, 관리비수입 대비 일정비율</li>
+                <li>순수익 결정 — 유효총수익 − 운영경비 = 순수익</li>
+              </ol>
+            </li>
+            <li><span class="htitle">환원이율의 결정</span>
+              <ol class="num">
+                <li>시장추출법(원칙) = 사례NOI ÷ 거래가격</li>
+                <li>요소구성법 = 무위험률 + 위험할증률</li>
+                <li>투자결합법 : 물리적투자결합법, 금융적투자결합법(Ross, Kazdin)</li>
+                <li>엘우드법 : <span class="frac"><span class="num">L</span><span class="den">V</span></span>를 이용, R = y − (L/V)×(y + p·SFF − MC) ± Δ×SFF</li>
+                <li>부채감당법 : R = DCR × LTV × MC</li>
+                <li>결정</li>
+              </ol>
+            </li>
+            <li><span class="htitle">수익가액 결정</span><div class="formula">순수익 ÷ 환원이율 = 수익가액</div></li>
+          </ol>
+        </div>
+      </article>
+
+      <article class="topic" id="t14" data-title="수익환원법(DCF, NOI)" data-group="E">
+        <div class="topic-tab"><span class="n">14</span><span class="l">DCF</span></div>
+        <div class="topic-body">
+          <h2>수익환원법(DCF, NOI)</h2>
+          <ol class="roman">
+            <li><span class="htitle">의의</span>대상물건의 보유기간에 발생하는 복수기간의 순수익과 보유기간 말의 복귀가액에 적절한 할인율을 적용하여 현재가치로 할인한 후 더하여 대상물건의 가액을 산정하는 방법(실무기준)<br><span class="note">순수익 결정 : 직접환원법과 동일</span></li>
+            <li><span class="htitle">보유기간 중 순수익 현가합</span>
+              <ol class="num">
+                <li>순수익이 정률성장하는 경우
+                  <div class="formula">정률성장 현금흐름의 현재가치 합 = 1기 NOI × <span class="frac"><span class="num">1 − ((1+g)/(1+y))ⁿ</span><span class="den">y − g</span></span></div>
+                </li>
+                <li>순수익이 불규칙성장하는 경우 — 매기 현금흐름의 현가(Cashflow table을 통하여 산정)</li>
+              </ol>
+            </li>
+            <li><span class="htitle">기말복귀가치 현가</span>
+              <ol class="num"><li>기말복귀가치 — (보유기간 후 순수익 ÷ 기출환원이율) × (1 − 매도경비율)</li><li>현가</li></ol>
+            </li>
+            <li><span class="htitle">수익가액</span><div class="formula">보유기간 중 순수익의 현재가치합 + 기말복귀가치 현가 = 수익가액</div></li>
+          </ol>
+        </div>
+      </article>
+
+      <article class="topic" id="t15" data-title="수익환원법(DCF, BTCF)" data-group="E">
+        <div class="topic-tab"><span class="n">15</span><span class="l">DCF</span></div>
+        <div class="topic-body">
+          <h2>수익환원법(DCF, BTCF)</h2>
+          <ol class="roman">
+            <li><span class="htitle">매기 BTCF 현가합</span>
+              <ol class="num">
+                <li>1기 순수익 결정</li>
+                <li>저당서비스액(DS) 결정</li>
+                <li>1기 BTCF : NOI − DS</li>
+                <li>매기 BTCF 현가합
+                  <table class="cf"><tr><th>기간</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th></tr>
+                  <tr><td>NOI</td><td>×××</td><td></td><td></td><td></td><td>×××</td></tr>
+                  <tr><td>(DS)</td><td>(×××)</td><td></td><td></td><td></td><td>(×××)</td></tr>
+                  <tr><td>BTCF</td><td>×××</td><td></td><td></td><td></td><td>×××</td></tr></table>
+                  <p class="note">현가합(세전지분할인율 %) :</p>
+                </li>
+              </ol>
+            </li>
+            <li><span class="htitle">기말지분복귀가치</span>
+              <ol class="num"><li>기말복귀가치 — (보유기간 후 순수익 ÷ 기출환원이율) × (1 − 매도경비율)</li><li>저당잔액</li><li>기말지분복귀가치 — 기말복귀가치 − 저당잔액</li></ol>
+            </li>
+            <li><span class="htitle">부동산가치 결정</span>
+              <ol class="num"><li>저당가치</li><li>지분가치 — 매기 BTCF 현가합 + 기말지분복귀가치 현가</li><li>부동산가치 — 지분가치 + 저당가치</li></ol>
+            </li>
+          </ol>
+        </div>
+      </article>
+
+      <article class="topic" id="t16" data-title="수익환원법(DCF, ATCF)" data-group="E">
+        <div class="topic-tab"><span class="n">16</span><span class="l">DCF</span></div>
+        <div class="topic-body">
+          <h2>수익환원법(DCF, ATCF)</h2>
+          <ol class="roman">
+            <li><span class="htitle">처리방침</span></li>
+            <li><span class="htitle">매기 ATCF 산정</span>
+              <ol class="num">
+                <li>현금흐름의 추정 <ol class="paren"><li>1기의 NOI</li><li>감가상각비</li><li>DS : L × MC</li><li>1기의 원금상환분 : L × (MC − i) (매기 저당이자율로 복리상승)</li></ol></li>
+                <li>매기 ATCF(DCF Table)
+                  <table class="cf"><tr><th>기간</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th></tr>
+                  <tr><td>NOI</td><td>×××</td><td></td><td></td><td></td><td>×××</td></tr>
+                  <tr><td>(DS)</td><td>(×××)</td><td></td><td></td><td></td><td>(×××)</td></tr>
+                  <tr><td>BTCF</td><td>×××</td><td></td><td></td><td></td><td>×××</td></tr>
+                  <tr><td>(TAX)</td><td>(×××)</td><td></td><td></td><td></td><td>(×××)</td></tr>
+                  <tr><td>ATCF</td><td>×××</td><td>×××</td><td>×××</td><td>×××</td><td>×××</td></tr>
+                  <tr><td>원금상환금</td><td>×××</td><td></td><td></td><td></td><td>×××</td></tr>
+                  <tr><td>(감가상각비)</td><td>(×××)</td><td></td><td></td><td></td><td>(×××)</td></tr></table>
+                  <p class="note">현가합(세후지분할인율 %) :</p>
+                </li>
+                <li>세후 기말지분복귀액 <ol class="paren">
+                  <li>기말복귀가치 : (6기 NOI ÷ 기출 R) × (1 − 매도경비율)</li>
+                  <li>미상환저당잔금 : 대출금액(L) × [1 − 상환비율(p)]</li>
+                  <li>자본이득세 : (기말복귀가치 − 매각시점장부가치) × 양도소득세율</li>
+                  <li>기말복귀액 : [(1) − (2) − (3)]</li>
+                </ol></li>
+                <li>지분가치</li>
+              </ol>
+            </li>
+            <li><span class="htitle">부동산의 가치</span>
+              <ol class="num"><li>지분가치 — 매기 ATCF 현가합 + 세후기말지분복귀가치 현가</li><li>저당가치</li><li>부동산 가치 — 지분가치 + 저당가치</li></ol>
+            </li>
+          </ol>
+        </div>
+      </article>
+
+      <!-- ================================================================ -->
+      <!-- GROUP F : 권리 관련 평가 -->
+      <div class="group-heading" data-group="F"><span class="gtag">F</span><h2>권리 관련 평가</h2></div>
+
+      <article class="topic" id="t23" data-title="임대차평가" data-group="F">
+        <div class="topic-tab"><span class="n">23</span><span class="l">권리</span></div>
+        <div class="topic-body">
+          <h2>임대차평가</h2>
+          <ol class="roman">
+            <li><span class="htitle">임대권의 가치</span>
+              <ol class="num"><li>계약임대료의 현재가치 합</li><li>기말복귀가치의 현재가치 합</li></ol>
+            </li>
+            <li><span class="htitle">임차권(전대권)의 가치</span>
+              <ol class="num"><li>귀속임대료의 현가합 — 임차권 : (시장임대료 − 계약임대료) × PVAF / 전대권 : (전대차임대료 − 계약임대료) × PVAF</li><li>임차자 개량물의 가치</li></ol>
+            </li>
+            <li><span class="htitle">전차권의 가치</span>
+              <ol class="num"><li>귀속임대료의 현가합 — (시장임대료 − 전차임대료) × PVAF</li><li>전차자 개량물의 가치</li></ol>
+            </li>
+          </ol>
+        </div>
+      </article>
+
+      <article class="topic" id="t24" data-title="구분소유권의 감정평가" data-group="F">
+        <div class="topic-tab"><span class="n">24</span><span class="l">권리</span></div>
+        <div class="topic-body">
+          <h2>구분소유권의 감정평가</h2>
+          <ol class="roman">
+            <li><span class="htitle">평가개요</span><span class="ref">「감정평가에 관한 규칙」 제16조</span> 거래사례비교법 기준. 구분소유 부동산 : 집합건물법에 따라 구분소유권의 대상이 되는 건물부분과 그 대지사용권(실무기준)</li>
+            <li><span class="htitle">거래사례비교법</span>
+              <ol class="num">
+                <li>거래사례의 선정 — 이용상황, 건물의 사용승인일, 규모 등이 유사한 거래사례 선정(단위 전유면적(㎡)당 거래가격)</li>
+                <li>시점수정치 <ol class="paren"><li>주거용 : 유형별 주택매매가격지수</li><li>비주거용 : 자본수익률(매장용, 오피스), 생산자물가지수 등</li></ol></li>
+                <li>가치형성요인 비교치 <ol class="paren"><li>단지외부요인</li><li>단지내부요인</li><li>개별적 요인</li><li>가치형성요인 비교치 : (1)×(2)×(3)</li></ol></li>
+                <li>비준가액 <div class="formula">거래가격(원/전유㎡) × 사정보정 × 시점수정 × 가치형성요인비교 ≒ 비준가액</div></li>
+              </ol>
+            </li>
+            <li><span class="htitle">원가법</span>
+              <ol class="num"><li>전체 토지·건물가치</li><li>층별·위치별 효용비율(배분율)</li><li>적산가액</li></ol>
+            </li>
+            <li><span class="htitle">수익환원법</span>
+              <ol class="num"><li>순수익</li><li>환원이율 또는 할인율 — DCM 또는 DCF 활용함</li></ol>
+            </li>
+            <li><span class="htitle">감정평가액 결정</span></li>
+          </ol>
+        </div>
+      </article>
+
+      <article class="topic" id="t25" data-title="구분지상권의 감정평가" data-group="F">
+        <div class="topic-tab"><span class="n">25</span><span class="l">권리</span></div>
+        <div class="topic-body">
+          <h2>구분지상권의 감정평가</h2>
+          <ol class="roman">
+            <li><span class="htitle">처리방침</span></li>
+            <li><span class="htitle">나지상정 토지가격</span></li>
+            <li><span class="htitle">입체이용저해율 산정</span>
+              <ol class="num">
+                <li>기본적 사항의 확정 — 나지·건부지인지 확정 → 노후율(최유효이용 유사 시) 고려 / 고·중·저층 시가지 → 이용률과 한계심도 결정</li>
+                <li>건물 등 이용저해율 — 최유효이용 : 법적, 물리적 측면 검토 / 건축가능층수</li>
+                <li>지하이용저해율</li>
+                <li>그 밖의 이용저해율 — 상하배분치 고려한 최고치 적용</li>
+                <li>계 : 건물 등 이용저해율 + 지하이용저해율 + 그 밖의 이용저해율</li>
+              </ol>
+            </li>
+            <li><span class="htitle">구분지상권 평가액</span>
+              <ol class="num">
+                <li>영구적 사용의 경우 — 토지가치 × 입체이용저해율 = 구분지상권가치</li>
+                <li>한시적 사용의 경우 — (토지가치 × 기대이율 + 필요제경비) × 입체이용저해율 = 연간사용료</li>
+              </ol>
+            </li>
+          </ol>
+        </div>
+      </article>
+
+      <article class="topic" id="t26" data-title="지상권이 설정된 토지평가" data-group="F">
+        <div class="topic-tab"><span class="n">26</span><span class="l">권리</span></div>
+        <div class="topic-body">
+          <h2>지상권이 설정된 토지평가</h2>
+          <ol class="roman">
+            <li><span class="htitle">처리방침</span></li>
+            <li><span class="htitle">나지상정 토지가격</span><ol class="num"><li>공시지가기준법</li><li>거래사례기준법</li></ol></li>
+            <li><span class="htitle">지상권의 감정평가액</span><span class="ref">토지보상법 시행규칙 제28조</span> 준용
+              <ol class="num">
+                <li>거래사례비교법에 의한 지상권 평가액 — 적정한 거래사례가 존재하는 경우</li>
+                <li>그 밖의 평가방법에 의한 지상권 평가액 <ol class="paren"><li>권리설정계약을 기준으로 하는 방법</li><li>귀속임대료의 현재가치를 기준하는 방법</li><li>그 밖의 적정한 감정평가방법</li></ol></li>
+              </ol>
+            </li>
+            <li><span class="htitle">대상토지가격</span><div class="formula">토지가격 − 지상권가치 = 지상권이 설정된 토지가치</div></li>
+          </ol>
+        </div>
+      </article>
+
+      <article class="topic" id="t58" data-title="소유권 외 권리의 목적이 되는 토지 등" data-group="F">
+        <div class="topic-tab"><span class="n">58</span><span class="l">권리</span></div>
+        <div class="topic-body">
+          <h2>소유권 외 권리의 목적이 되는 토지 등</h2>
+          <ol class="roman">
+            <li><span class="htitle">「전기사업법」상 공중선로 설치를 위한 감정평가</span>
+              <ol class="num"><li>토지의 적정가격</li><li>감가율 산정 — 입체이용저해율 + 추가보정률</li></ol>
+            </li>
+            <li><span class="htitle">「도시철도법」에 의한 지하사용료의 감정평가</span>
+              <ol class="num"><li>토지의 적정가격</li><li>입체이용저해율 산정</li></ol>
+            </li>
+            <li><span class="htitle">소유권 외의 권리의 목적이 되고 있는 토지</span>(규칙 제29조)<div class="formula">소유권 외의 권리가 없는 상태의 감정평가액 − 소유권 외의 권리에 대한 감정평가액</div></li>
+          </ol>
+        </div>
+      </article>
+
+      <!-- ================================================================ -->
+      <!-- GROUP G : 특수토지·특수물건 평가 -->
+      <div class="group-heading" data-group="G"><span class="gtag">G</span><h2>특수토지 · 특수물건 평가</h2></div>
+
+      <article class="topic" id="t27" data-title="광천지의 감정평가" data-group="G">
+        <div class="topic-tab"><span class="n">27</span><span class="l">물건</span></div>
+        <div class="topic-body">
+          <h2>광천지의 감정평가</h2>
+          <ol class="roman">
+            <li><span class="htitle">평가개요</span></li>
+            <li><span class="htitle">공시지가기준법</span>인근지역 혹은 유사지역의 광천지 표준지를 선정하여 평가한다.</li>
+            <li><span class="htitle">거래사례비교법</span>광천지만의 거래사례(혹은 광천지만의 가격 배분가능한 거래사례)를 기준으로 평가한다.</li>
+            <li><span class="htitle">원가법</span>투입비용의 현재가치 : 굴착비, 그라우팅비, 펌프, 모터 등 비용</li>
+            <li><span class="htitle">혼합법</span>
+              <ol class="num">
+                <li>표준광천지 기준 개발비(원/m²)</li>
+                <li>광천지지수 <ol class="paren"><li>표준광천지 수익가액(원/㎡)</li><li>표준광천지 기준 개발비(원/㎡)</li><li>광천지지수</li></ol></li>
+                <li>용출량지수 보정 <ol class="paren"><li>표준광천지 용출량지수</li><li>대상광천지 용출량지수</li></ol></li>
+              </ol>
+            </li>
+            <li><span class="htitle">평가액 결정</span>공시지가기준가액 기준</li>
+          </ol>
+        </div>
+      </article>
+
+      <article class="topic" id="t28" data-title="과수원의 감정평가" data-group="G">
+        <div class="topic-tab"><span class="n">28</span><span class="l">물건</span></div>
+        <div class="topic-body">
+          <h2>과수원의 감정평가</h2>
+          <ol class="roman">
+            <li><span class="htitle">평가개요</span><span class="ref">「감정평가에 관한 규칙」 제18조</span> 거래사례비교법 적용 기준. 과수원부지와 과수목의 일괄평가 원칙(과수원부지와 과수목을 별도로 평가할 수 있음. 과수목은 평가목적에 따라 평가외하는 경우도 많을 것)<br>과수원이란 집단적으로 재배하는 사과·배·밤·호두·귤나무 등 과수류 및 그 토지와 이에 접속된 저장고 등 부속시설물의 부지(주거용 건물이 있는 부지는 제외)를 말한다(실무기준).</li>
+            <li><span class="htitle">거래사례비교법</span>인근지역의 과수원(본건 유사)의 거래사례를 기준으로 평가</li>
+            <li><span class="htitle">개별평가</span>
+              <ol class="num">
+                <li>과수원부지의 평가액 <ol class="paren"><li>공시지가기준법 — 인근지역의 과수원(혹은 농지) 비교표준지 기준</li><li>거래사례비교법 — 인근지역의 과수원부지(과수원 거래사례에서 과수목 등 가격배분)의 거래사례를 기준</li></ol></li>
+                <li>과수의 평가액 — 인근에 시세가 존재하는 경우 시세기준 평가 / 시세가 존재하지 않는 경우 어린 나무의 경우 원가법, 성숙목의 경우 수익환원법 등으로 평가</li>
+              </ol>
+            </li>
+          </ol>
+        </div>
+      </article>
+
+      <article class="topic" id="t29" data-title="입목의 감정평가" data-group="G">
+        <div class="topic-tab"><span class="n">29</span><span class="l">물건</span></div>
+        <div class="topic-body">
+          <h2>입목의 감정평가</h2>
+          <p class="lead"><b>[시장가 역산법]</b></p>
+          <ol class="roman">
+            <li><span class="htitle">평가개요</span>산식 기재</li>
+            <li><span class="htitle">원목의 시장가격</span></li>
+            <li><span class="htitle">적용이율</span>자본회수기간, 월이율, 기업자이윤 등 고려</li>
+            <li><span class="htitle">생산비용</span></li>
+            <li><span class="htitle">입목의 평가액</span></li>
+          </ol>
+          <p class="lead" style="margin-top:20px;"><b>[글라저 근사법]</b></p>
+          <ol class="roman">
+            <li><span class="htitle">평가개요</span>산식 기재</li>
+            <li><span class="htitle">표준 벌기가액</span></li>
+            <li><span class="htitle">최초 연도 비용</span></li>
+            <li><span class="htitle">입목의 평가액</span></li>
+          </ol>
+        </div>
+      </article>
+
+      <article class="topic" id="t30" data-title="골프장의 감정평가" data-group="G">
+        <div class="topic-tab"><span class="n">30</span><span class="l">물건</span></div>
+        <div class="topic-body">
+          <h2>골프장의 감정평가</h2>
+          <ol class="roman">
+            <li><span class="htitle">평가개요</span>등록면적기준 일단지평가</li>
+            <li><span class="htitle">개별평가</span>
+              <ol class="num">
+                <li>토지의 평가액 <ol class="paren">
+                  <li>공시지가기준법 — 골프장 표준지(본건이 표준지임)를 기준으로 평가</li>
+                  <li>거래사례비교법 — 인근의 골프장부지만의 거래사례(혹은 골프장 거래가에서 배분된 단가)를 기준으로 평가</li>
+                  <li>조성원가법 — 소지가치에 인허가비용과 조성비용(본건비용, 조성사례비용 병용)을 가산한 금액</li>
+                  <li>토지평가액 결정</li>
+                </ol></li>
+                <li>건물의 평가액 — 원가법으로 평가</li>
+              </ol>
+            </li>
+            <li><span class="htitle">거래사례비교법</span>
+              <ol class="num"><li>거래사례 선택 — 본건과 유사한 유형(회원제, 대중제), 규모, 위치 등을 고려하여 선택</li><li>비준가액 <div class="formula">거래가격(원/홀, 원/㎡) × 사정보정 × 시점수정 × 가치형성요인비교 ≒ 비준가액</div></li></ol>
+            </li>
+            <li><span class="htitle">수익환원법</span>골프장으로서의 영업이익을 기준으로 직접환원법 혹은 할인현금수지분석법</li>
+            <li><span class="htitle">평가액 결정</span></li>
+          </ol>
+        </div>
+      </article>
+
+      <article class="topic" id="t31" data-title="기계기구의 감정평가" data-group="G">
+        <div class="topic-tab"><span class="n">31</span><span class="l">물건</span></div>
+        <div class="topic-body">
+          <h2>기계기구의 감정평가</h2>
+          <ol class="roman">
+            <li><span class="htitle">처리방침</span><span class="ref">감칙 제21조 제2항</span>에 의하여 원가법 원칙</li>
+            <li><span class="htitle">도입기계평가</span>
+              <ol class="num">
+                <li>재조달원가 <ol class="paren">
+                  <li>도입가격 — CIF기준(= FOB + 현행운임 + 현행보험료), 기준시점 당시 원산지환율 대 원화 − 1년간 기준환율 or 재정환율 평균치</li>
+                  <li>부대비용 <ol class="parennum">
+                    <li>설치비 — 자주식 제외, 기계만의 평가 시 제외(단 사업체 의뢰 시 고려)</li>
+                    <li>관세 — 현행 관세율 적용, CIF기준가 × 관세율 × (1 − 현행 감면율)</li>
+                    <li>농특세 — CIF기준가 × 관세율 × 감면율 × 0.2</li>
+                    <li>L/C 등 부대비용</li>
+                  </ol></li>
+                  <li>재조달원가</li>
+                </ol></li>
+                <li>적산가격 : C × rⁿ 정률법 감가 원칙(실무기준) <span class="note">※ 감가수정기준일 − 수입신고일기준</span></li>
+              </ol>
+            </li>
+            <li><span class="htitle">국산기계평가</span><div class="formula">C × rⁿ</div></li>
+          </ol>
+        </div>
+      </article>
+
+      <article class="topic" id="t39" data-title="선박의 감정평가" data-group="G">
+        <div class="topic-tab"><span class="n">39</span><span class="l">물건</span></div>
+        <div class="topic-body">
+          <h2>선박의 감정평가</h2>
+          <ol class="roman">
+            <li><span class="htitle">평가개요</span><span class="ref">「감정평가에 관한 규칙」 제20조 제3항</span> 선체·기관·의장별 구분평가, 각각 원가법 적용 원칙</li>
+            <li><span class="htitle">원가법</span>
+              <ol class="num"><li>선체 — GT당 재조달원가를 기준으로 정률법으로 감가수정</li><li>기관 — HP당 재조달원가를 기준으로 정률법으로 감가수정</li><li>의장품 — 평가목적에 따라 평가외 될 수 있다.</li></ol>
+            </li>
+            <li><span class="htitle">거래사례비교법</span>
+              <ol class="num"><li>거래사례 선정 — 거래사례 선정(방매사례 검토 가능), 본건과 같거나 유사한 선종(船種), 규모 등을 고려하여 설정, 해운경기에 가격변동이 민감하기 때문에 사례 선택 시 고려</li><li>비준가액 — GT당 가격을 기준으로 보정</li></ol>
+            </li>
+            <li><span class="htitle">평가액 결정</span></li>
+          </ol>
+        </div>
+      </article>
+
+      <article class="topic" id="t32" data-title="공장(재단)의 감정평가" data-group="G">
+        <div class="topic-tab"><span class="n">32</span><span class="l">물건</span></div>
+        <div class="topic-body">
+          <h2>공장(재단)의 감정평가</h2>
+          <ol class="roman">
+            <li><span class="htitle">처리방침</span><span class="ref">「감정평가에 관한 규칙」 제19조</span> 개별평가 원칙</li>
+            <li><span class="htitle">물건별 평가액</span>
+              <ol class="num">
+                <li>유형고정자산 <ol class="paren">
+                  <li>과잉유휴토지(시설) 판정 및 그 처리방법</li><li>토지</li><li>건물</li>
+                  <li>기계 <ol class="parennum"><li>도입기계</li><li>국산기계</li><li>계</li></ol></li>
+                  <li>계</li>
+                </ol></li>
+                <li>무형고정자산 <ol class="paren"><li>영업권(감정평가에 관한 규칙 제23조)</li><li>기타무형고정자산(감정평가에 관한 규칙 제23조)</li><li>계</li></ol></li>
+                <li>물건별 평가액</li>
+              </ol>
+            </li>
+            <li><span class="htitle">일체수익가격</span>
+              <ol class="num"><li>대상 공장의 수익(순수익, 기업잉여현금흐름 등)</li><li>대상 공장의 할인율(환원이율)</li><li>공장의 수익가액</li></ol>
+            </li>
+            <li><span class="htitle">공장평가액</span>
+              <ol class="num"><li>공장부분의 평가액</li><li>과잉유휴부분의 평가액 — 토지, 건물 및 기계기구 / 전용가능 시 전용가치−전용비용 / 전용불가 시 해체처분가액</li></ol>
+            </li>
+          </ol>
+        </div>
+      </article>
+
+      <!-- ================================================================ -->
+      <!-- GROUP H : 무형자산 / 권리 평가 -->
+      <div class="group-heading" data-group="H"><span class="gtag">H</span><h2>무형자산 · 권리 평가</h2></div>
+
+      <article class="topic" id="t33" data-title="광업권의 감정평가(일반)" data-group="H">
+        <div class="topic-tab"><span class="n">33</span><span class="l">무형</span></div>
+        <div class="topic-body">
+          <h2>광업권의 감정평가(일반)</h2>
+          <ol class="roman">
+            <li><span class="htitle">처리방침</span>「감정평가에 관한 규칙」 제23조 의거 “감칙 제19조에 따른 광업재단 평가액 − 현존시설가액”</li>
+            <li><span class="htitle">광산평가액</span>
+              <ol class="num">
+                <li>상각 전 순수익 — 사업수익 − 소요경비</li>
+                <li>가행연수의 산정(n) — 예상 추정량 ÷ 연간 채광량 ≒ 가행연수(절사)</li>
+                <li>각종 이율의 산정 <ol class="paren"><li>세전배당이율(S) = 배당률 ÷ (1 − 세율)</li><li>축적이율(i) : 정기예금금리</li></ol></li>
+                <li>장래소요기업비현가(E)</li>
+                <li>광산평가액
+                  <div class="formula">
+                    <span class="frac"><span class="num">상각 전 순수익</span><span class="den">S + i/((1+i)ⁿ−1)</span></span> − E(기업비현가) + R(기말복귀가치현가)
+                  </div>
+                </li>
+              </ol>
+            </li>
+            <li><span class="htitle">광업권평가액</span>
+              <ol class="num"><li>광산평가액</li><li>유형고정자산평가액 — 적정생산규모, 가행연수 고려, 과잉유휴시설 배제(감칙 제23조)</li><li>광업권평가액</li></ol>
+            </li>
+          </ol>
+        </div>
+      </article>
+
+      <article class="topic" id="t34" data-title="어업권의 감정평가(일반)" data-group="H">
+        <div class="topic-tab"><span class="n">34</span><span class="l">무형</span></div>
+        <div class="topic-body">
+          <h2>어업권의 감정평가(일반)</h2>
+          <ol class="roman">
+            <li><span class="htitle">처리방침</span>「감정평가에 관한 규칙」 제23조</li>
+            <li><span class="htitle">어장평가액</span>
+              <ol class="num">
+                <li>상각전 순수익 — 사업수익 − 소요경비</li>
+                <li>장래소요기업비현가(E)</li>
+                <li>어장평가액(r = 상각후 환원이율)
+                  <div class="formula"><span class="frac"><span class="num">상각전순수익</span><span class="den">r + i/((1+r)ⁿ−1)</span></span> − E(기업비현가) + R(기말복귀가치현가)</div>
+                </li>
+              </ol>
+            </li>
+            <li><span class="htitle">어업권평가액</span>
+              <ol class="num"><li>어장평가액</li><li>유형고정자산평가액</li><li>어업권평가액</li></ol>
+            </li>
+          </ol>
+        </div>
+      </article>
+
+      <article class="topic" id="t35" data-title="영업권의 감정평가" data-group="H">
+        <div class="topic-tab"><span class="n">35</span><span class="l">무형</span></div>
+        <div class="topic-body">
+          <h2>영업권의 감정평가</h2>
+          <ol class="roman">
+            <li><span class="htitle">처리방침</span>「감정평가에 관한 규칙」 제23조 수익환원법 기준<br>영업권이란 경영상의 유리한 관계 등 배타적 영리기회를 보유하여 같은 업종의 다른 기업들에 비하여 초과수익을 확보할 수 있는 능력으로서 경제적 가치가 있다고 인정되는 권리</li>
+            <li><span class="htitle">수익환원법</span>
+              <ol class="num">
+                <li>방법 #1 기준 (영업 관련 기업가치 − 투하자본) <ol class="paren">
+                  <li>기업가치의 결정 — 수익환원법 기준(FCFF / WACC)</li>
+                  <li>투하자본가치 — ① 영업자산 − 영업부채 ② 순자산가치 + 이자지급부부채</li>
+                  <li>영업권 가치</li>
+                </ol></li>
+                <li>방법 #2 기준 (초과영업이익 × PVAF) <ol class="paren">
+                  <li>대상 기업의 영업이익 결정 — 매출액 − 매출원가 − 판관비</li>
+                  <li>정상영업이익의 결정 <ol class="parennum"><li>대상 기업의 영업관련 자산가치</li><li>정상영업이익률 결정 — 유사한 업종의 업장과 비교</li><li>정상영업이익 결정</li></ol></li>
+                  <li>초과수익 결정</li>
+                  <li>영업권 가치</li>
+                </ol></li>
+              </ol>
+            </li>
+            <li><span class="htitle">거래사례비교법</span>
+              <ol class="num">
+                <li>처리방침</li>
+                <li>대상 기업의 시가총액 : 주식가치 × 발행주식수</li>
+                <li>영업권을 제외한 순자산가치 — 영업권을 제외한 총자산가치 − 부채가치</li>
+                <li>영업권가치의 결정 — 시가총액 − 영업권을 제외한 순자산가치</li>
+              </ol>
+            </li>
+          </ol>
+        </div>
+      </article>
+
+      <article class="topic" id="t36" data-title="특허권(지식재산권)의 감정평가" data-group="H">
+        <div class="topic-tab"><span class="n">36</span><span class="l">무형</span></div>
+        <div class="topic-body">
+          <h2>특허권(지식재산권)의 감정평가</h2>
+          <p class="lead"><b>[기술기여도 고려 방법]</b></p>
+          <ol class="roman">
+            <li><span class="htitle">평가개요</span>「감정평가에 관한 규칙」 제23조, 수익환원법 기준 / 경제적 잔여 수명 결정</li>
+            <li><span class="htitle">추정기간 중 FCFF 결정</span></li>
+            <li><span class="htitle">할인율(WACC) 결정</span></li>
+            <li><span class="htitle">기술기여도 결정</span>(기업의 경제적 이익 창출에 기여한 유·무형의 기업 자산 중에서 해당 지식재산권이 차지하는 상대적인 비율, 실무기준)
+              <ol class="num"><li>산업기술요소</li><li>개별기술강도</li><li>기술기여도 — 산업기술요소 × 개별기술강도 = 기술기여도</li></ol>
+            </li>
+            <li><span class="htitle">특허권 가치 결정</span><div class="formula">FCFF 현가합 × 기술기여도</div></li>
+          </ol>
+          <p class="lead" style="margin-top:20px;"><b>[현금흐름기준 방법]</b></p>
+          <ol class="roman">
+            <li><span class="htitle">평가개요</span>수익환원법 기준 / 경제적 잔여 수명 결정</li>
+            <li><span class="htitle">지식재산권 귀속 현금흐름</span><div class="formula">총매출 혹은 영업이익 × 로열티율(%) × (1 − 세율)</div></li>
+            <li><span class="htitle">할인율(WACC) 결정</span></li>
+            <li><span class="htitle">특허권 가치 결정</span><div class="formula">지식재산권 귀속 현금흐름 × 현재가치(WACC, 잔여수명)</div></li>
+          </ol>
+        </div>
+      </article>
+
+      <article class="topic" id="t37" data-title="기업가치의 감정평가" data-group="H">
+        <div class="topic-tab"><span class="n">37</span><span class="l">무형</span></div>
+        <div class="topic-body">
+          <h2>기업가치의 감정평가</h2>
+          <p class="lead"><b>[수익환원법 기준]</b></p>
+          <ol class="roman">
+            <li><span class="htitle">평가개요</span>「감정평가에 관한 규칙」 제24조, 수익환원법 기준<br>의의 : 해당 기업체가 보유하고 있는 유·무형의 자산 가치를 말하며, 자기자본가치와 타인자본가치로 구성된다(실무기준).</li>
+            <li><span class="htitle">FCFF의 추정</span><ol class="num"><li>FCFF 산식</li><li>고속성장기 중 FCFF</li><li>안정성장기 FCFF</li></ol></li>
+            <li><span class="htitle">WACC 결정</span>
+              <ol class="num"><li>고속성장기 WACC <ol class="paren"><li>자기자본비용 : CAPM + 위험가산율</li><li>타인자본비용 : 이자율 × (1 − 세율)</li><li>가중평균자본비용 : 해당 기업의 장기평균 자본비중으로 가중평균</li></ol></li><li>안정성장기 WACC</li></ol>
+            </li>
+            <li><span class="htitle">기업가치 결정</span></li>
+          </ol>
+          <p class="lead" style="margin-top:20px;"><b>[거래사례비교법]</b></p>
+          <ol class="roman">
+            <li><span class="htitle">평가개요</span>수익환원법 원칙, 적용불가능한 이유, 거래사례비교법 적용 사유</li>
+            <li><span class="htitle">유사한 기업의 시장배수분석</span><ol class="num"><li>유사기업의 선정</li><li>시장배수의 분석</li><li>적용시장배수</li></ol></li>
+            <li><span class="htitle">기업가치의 결정</span><ol class="num"><li>본건 기업의 자기자본가치</li><li>부채가치</li><li>기업가치 결정</li></ol></li>
+          </ol>
+        </div>
+      </article>
+
+      <article class="topic" id="t38" data-title="비상장주식의 감정평가" data-group="H">
+        <div class="topic-tab"><span class="n">38</span><span class="l">무형</span></div>
+        <div class="topic-body">
+          <h2>비상장주식의 감정평가</h2>
+          <p class="lead"><b>[수정재무상태표를 작성하는 방법]</b></p>
+          <ol class="roman">
+            <li><span class="htitle">평가개요</span>감칙 제24조, 해당 회사의 자산·부채 및 자본 항목을 평가하여 수정재무상태표를 작성한 후 기업체의 유·무형의 자산가치(기업가치)에서 부채의 가치를 빼고 산정한 자기자본의 가치를 발행주식 수로 나눌 것</li>
+            <li><span class="htitle">수정재무상태표 작성</span><ol class="num"><li>토지, 건물 등의 감정평가</li><li>수정재무상태표 작성</li></ol></li>
+            <li><span class="htitle">순자산가치 결정</span>자산총액 − 부채총계</li>
+            <li><span class="htitle">비상장주식의 평가액</span><ol class="num"><li>자기자본가치</li><li>비상장주식 평가액 — 자기자본가치 ÷ 발행주식수</li></ol></li>
+          </ol>
+          <p class="lead" style="margin-top:20px;"><b>[수익환원법에 의한 기업가치에 의한 방법]</b></p>
+          <ol class="roman">
+            <li><span class="htitle">평가개요</span>「감정평가에 관한 규칙」 제24조</li>
+            <li><span class="htitle">기업가치의 결정</span><ol class="num"><li>처리방침 : 수익환원법 기준</li><li>기업가치의 결정(기업가치 평가방법 준용)</li></ol></li>
+            <li><span class="htitle">순자산가치</span><div class="formula">순자산가치 = 수익환원법에 의한 기업가치 − 금융부채(이자지급부부채)</div></li>
+            <li><span class="htitle">비상장주식의 평가액</span><ol class="num"><li>순자산가치</li><li>비상장주식 평가액 — 자기자본가치 ÷ 발행주식수</li></ol></li>
+          </ol>
+        </div>
+      </article>
+
+      <!-- ================================================================ -->
+      <!-- GROUP I : 기타 물건 평가 -->
+      <div class="group-heading" data-group="I"><span class="gtag">I</span><h2>기타 물건 평가</h2></div>
+
+      <article class="topic" id="t40" data-title="권리금의 감정평가" data-group="I">
+        <div class="topic-tab"><span class="n">40</span><span class="l">기타</span></div>
+        <div class="topic-body">
+          <h2>권리금의 감정평가</h2>
+          <ol class="roman">
+            <li><span class="htitle">평가개요</span>기준시점 : 상가임대차보호법상 임대차기간 종료일 / 유형자산은 원가법, 무형자산은 수익환원법으로 개별평가 원칙<br>의의 : 임대차목적물인 상가건물에서 영업을 하는 자 또는 영업을 하려는 자가 영업시설, 비품, 거래처, 신용, 노하우, 상가건물의 위치에 따른 영업상의 이점 등 유무형의 재산적 가치의 양도 또는 이용대가로서 보증금과 차임 이외에 지급하는 금전 등의 대가</li>
+            <li><span class="htitle">유형자산 평가액</span>원가법 기준, 일부 중고품 가격수준 존재 시 참작 가능</li>
+            <li><span class="htitle">무형자산 평가액</span>
+              <ol class="num">
+                <li>수익환원법에 의한 가액 <ol class="paren">
+                  <li>임대기간 중 영업이익(수정 후 영업이익) — 자가노력비, 감가비 경비에 포함</li>
+                  <li>무형자산 귀속영업이익 — 무형자산 귀속비율 추정</li>
+                  <li>할인율 결정</li>
+                  <li>무형자산의 평가액</li>
+                </ol></li>
+                <li>거래사례비교법에 의한 가액 <ol class="paren">
+                  <li>거래사례 선택 — 유사업종, 입지, 영업조건 등 고려하여 무형자산의 거래사례 선택</li>
+                  <li>비준가액</li>
+                </ol></li>
+                <li>평가액 결정 — 수익환원법 기준</li>
+              </ol>
+            </li>
+          </ol>
+        </div>
+      </article>
+
+      <article class="topic" id="t41" data-title="소음 등으로 인한 가치하락분의 감정평가" data-group="I">
+        <div class="topic-tab"><span class="n">41</span><span class="l">기타</span></div>
+        <div class="topic-body">
+          <h2>소음 등으로 인한 가치하락분의 감정평가</h2>
+          <ol class="roman">
+            <li><span class="htitle">평가개요</span>「감정평가에 관한 규칙」 제25조 및 실무기준<br>의의 : 소음 등의 발생 전과 비교한 대상물건의 객관적 가치하락분(실무기준). 일시적·주관적 가치하락 제외(실무기준)</li>
+            <li><span class="htitle">오염 전 부동산가치</span><ol class="num"><li>비준가액 — 오염 전 거래사례 선택</li><li>수익가액 — 오염 전 수익 및 할인율(환원율) 기초</li></ol></li>
+            <li><span class="htitle">오염 후 부동산가치</span><ol class="num"><li>비준가액 — 오염 후 거래사례 선택</li><li>수익가액 — 오염 후 수익 및 할인율(환원율) 기초</li></ol></li>
+            <li><span class="htitle">가치하락분</span><div class="formula">오염 전 부동산가치 − 오염 후 부동산가치</div></li>
+          </ol>
+        </div>
+      </article>
+
+      <!-- ================================================================ -->
+      <!-- GROUP J : 투자·타당성 분석 -->
+      <div class="group-heading" data-group="J"><span class="gtag">J</span><h2>투자·타당성 분석</h2></div>
+
+      <article class="topic" id="t42" data-title="투자의사결정" data-group="J">
+        <div class="topic-tab"><span class="n">42</span><span class="l">분석</span></div>
+        <div class="topic-body">
+          <h2>투자의사결정</h2>
+          <ol class="roman">
+            <li><span class="htitle">평가개요</span>「감정평가에 관한 규칙」 제27조</li>
+            <li><span class="htitle">현금유출의 현재가치</span>매수금액 혹은 지분투자금액</li>
+            <li><span class="htitle">현금유입의 현재가치</span>순영업소득(해당 부동산의 현금흐름 고려) 혹은 지분현금흐름(순영업소득 − 저당지불액)</li>
+            <li><span class="htitle">타당성 분석 및 의견 제시</span><ol class="num"><li>NPV법, IRR법 등</li><li>의견 제시</li></ol></li>
+          </ol>
+        </div>
+      </article>
+
+      <article class="topic" id="t43" data-title="매후환대차의 의사결정" data-group="J">
+        <div class="topic-tab"><span class="n">43</span><span class="l">분석</span></div>
+        <div class="topic-body">
+          <h2>매후환대차의 의사결정</h2>
+          <ol class="roman">
+            <li><span class="htitle">평가개요</span>「감정평가에 관한 규칙」 제27조</li>
+            <li><span class="htitle">계속 보유할 경우</span>
+              <ol class="num"><li>보유기간 중 감가상각비로 인한 절세액 현가</li><li>세후 복귀가치현가 <ol class="paren"><li>기말매각가치</li><li>기말의 자본이득세</li><li>세후 복귀가치현가</li></ol></li><li>순현금흐름</li></ol>
+            </li>
+            <li><span class="htitle">매후환대차할 경우</span>
+              <ol class="num"><li>현 시점의 세후 매각금액 <ol class="paren"><li>매각금액</li><li>자본이득세</li><li>세후 매각금액</li></ol></li><li>임대기간 중 세후임대료현가</li><li>순현금흐름</li></ol>
+            </li>
+            <li><span class="htitle">매후환대차의 타당성 분석</span></li>
+          </ol>
+        </div>
+      </article>
+
+      <article class="topic" id="t44" data-title="토지의 최유효이용 분석" data-group="J">
+        <div class="topic-tab"><span class="n">44</span><span class="l">분석</span></div>
+        <div class="topic-body">
+          <h2>토지의 최유효이용 분석</h2>
+          <ol class="roman">
+            <li><span class="htitle">평가개요</span>「감정평가에 관한 규칙」 제27조</li>
+            <li><span class="htitle">선정 가능한 대안 분석</span>합법적, 합리적, 물리적 선정 가능한 대안 분석 / 선정 불가 대안은 근거 적시</li>
+            <li><span class="htitle">경제적 가치를 극대화시키는 방안</span>
+              <ol class="num"><li>대안 A — 대안 A에 따른 복합부동산 가치 − 건축비 및 개발비</li><li>대안 B — 동일 논리</li><li>대안 C — 동일 논리</li><li>경제적 가치 극대화 방안</li></ol>
+            </li>
+            <li><span class="htitle">최유효이용 시 토지의 평가액</span></li>
+          </ol>
+        </div>
+      </article>
+
+      <article class="topic" id="t45" data-title="개량물의 최유효이용 분석" data-group="J">
+        <div class="topic-tab"><span class="n">45</span><span class="l">분석</span></div>
+        <div class="topic-body">
+          <h2>개량물의 최유효이용 분석</h2>
+          <ol class="roman">
+            <li><span class="htitle">평가개요</span>「감정평가에 관한 규칙」 제27조</li>
+            <li><span class="htitle">선정 가능한 대안 분석</span>합법적, 합리적, 물리적 선정 가능한 대안 분석 / 선정 불가 대안은 근거 적시</li>
+            <li><span class="htitle">경제적 가치를 극대화시키는 방안</span>
+              <ol class="num"><li>대안 A — 개량 후 대안 A에 따른 복합부동산 가치 − 개량비(자본적 지출)</li><li>대안 B — 동일 논리</li><li>대안 C — 동일 논리</li><li>경제적 가치 극대화 방안</li></ol>
+            </li>
+            <li><span class="htitle">최유효이용 시 개량물의 평가액</span></li>
+          </ol>
+        </div>
+      </article>
+
+      <article class="topic" id="t46" data-title="복합부동산의 최유효이용 분석 - 지상건물의 철거타당성" data-group="J">
+        <div class="topic-tab"><span class="n">46</span><span class="l">분석</span></div>
+        <div class="topic-body">
+          <h2>복합부동산의 최유효이용 분석 - 지상건물의 철거타당성</h2>
+          <ol class="roman">
+            <li><span class="htitle">평가개요</span></li>
+            <li><span class="htitle">현상태로서의 부동산가치</span>(최유효이용 미달된 복합부동산가치)
+              <ol class="num"><li>개별평가 — 나지상태의 토지가치(− 건부감가) + 건물가치</li><li>거래사례비교법 — 본건과 품등조건이 유사한 사례기준가격</li><li>수익환원법 — 본건의 순수익 ÷ 조정된 환원이율(혹은 할인현금수지분석법)</li></ol>
+            </li>
+            <li><span class="htitle">지상건물 철거 시의 토지가치</span>(나지상태 토지가치 − 철거비)
+              <ol class="num">
+                <li>나지상태 토지가치 <ol class="paren"><li>공시지가기준법</li><li>거래사례비교법 — 최유효이용의 거래사례</li><li>수익환원법(토지잔여법) — 최유효이용 상정 순수익</li><li>토지의 평가액</li></ol></li>
+                <li>철거비를 고려한 토지가액 — 나지상태 토지평가액 − 철거비</li>
+              </ol>
+            </li>
+            <li><span class="htitle">지상건물의 철거타당성 검토</span>
+              <div class="callout">현상태 가액 &gt; (나지상태 토지가치 − 철거비) : <b>현상태 유지</b>(중도적 이용)<br>현상태 가액 &lt; (나지상태 토지가치 − 철거비) : <b>철거 타당함</b>(새로운 개발)</div>
+            </li>
+          </ol>
+        </div>
+      </article>
+
+      <!-- ================================================================ -->
+      <!-- GROUP K : 목적별 감정평가 -->
+      <div class="group-heading" data-group="K"><span class="gtag">K</span><h2>목적별 감정평가</h2></div>
+
+      <article class="topic" id="t47" data-title="담보목적 감정평가" data-group="K">
+        <div class="topic-tab"><span class="n">47</span><span class="l">목적</span></div>
+        <div class="topic-body">
+          <h2>담보목적 감정평가</h2>
+          <ol class="roman">
+            <li><span class="htitle">평가개요</span>의의 : 금융기관 등이 대출을 하거나 채무자가 대출을 받기 위하여 의뢰하는 담보물건에 대한 감정평가(실무기준)</li>
+            <li><span class="htitle">제시외 건물에 대한 처리방법</span></li>
+            <li><span class="htitle">그 밖의 담보평가 시 유의사항</span></li>
+          </ol>
+        </div>
+      </article>
+
+      <article class="topic" id="t48" data-title="경매목적 감정평가" data-group="K">
+        <div class="topic-tab"><span class="n">48</span><span class="l">목적</span></div>
+        <div class="topic-body">
+          <h2>경매목적 감정평가</h2>
+          <ol class="roman">
+            <li><span class="htitle">평가개요</span>의의 : 경매집행법원이 경매대상물건의 최저매각가격을 결정하기 위해 의뢰하는 감정평가(실무기준)</li>
+            <li><span class="htitle">제시외 건물에 대한 처리방법</span></li>
+            <li><span class="htitle">그 밖의 경매평가 시 유의사항</span></li>
+          </ol>
+        </div>
+      </article>
+
+      <article class="topic" id="t49" data-title="국·공유재산의 감정평가" data-group="K">
+        <div class="topic-tab"><span class="n">49</span><span class="l">목적</span></div>
+        <div class="topic-body">
+          <h2>국·공유재산의 감정평가</h2>
+          <ol class="roman">
+            <li><span class="htitle">평가개요</span>국유재산 : 「국유재산법」 제44조 시가(時價)평가 / 공유재산 : 「공유재산법」 제30조 시가(時價)평가</li>
+            <li><span class="htitle">감정평가목적의 확정</span>시가(時價)평가 원칙, 예외적으로 보상감정평가</li>
+            <li><span class="htitle">인접 토지소유자 수의계약 매각 시 기여도의 고려</span>매입에 따른 일단의 기여도를 고려하여 평가할 수 있음.</li>
+            <li><span class="htitle">개량비에 대한 처리</span>「공유재산법 시행령」 제28조</li>
+          </ol>
+        </div>
+      </article>
+
+      <!-- ================================================================ -->
+      <!-- GROUP L : 도시정비평가 -->
+      <div class="group-heading" data-group="L"><span class="gtag">L</span><h2>도시정비평가</h2></div>
+
+      <article class="topic" id="t50" data-title="도시정비평가 - 종전자산평가" data-group="L">
+        <div class="topic-tab"><span class="n">50</span><span class="l">정비</span></div>
+        <div class="topic-body">
+          <h2>도시정비평가 - 종전자산평가</h2>
+          <ol class="roman">
+            <li><span class="htitle">평가개요</span>「도시정비법」 제74조 / 기준시점 : 사업시행인가고시일 / 조합원 간 가격균형 유지하여 평가(실무기준)
+              <ol class="num">
+                <li>적용공시지가 : 사업시행인가고시일 이전 최근 공시지가</li>
+                <li>비교표준지 선정 — 해당 사업으로 인한 용도지역 변경은 반영하지 않음</li>
+                <li>그 밖의 요인비교치 결정 — 관리처분목적의 종전자산 평가선례 및 거래사례 기준(평가목적을 고려하여 선정)</li>
+                <li>평가액 결정</li>
+              </ol>
+            </li>
+            <li><span class="htitle">건물의 평가액</span>
+              <ol class="num"><li>처리방침 — 신발생무허가건축물, 특정무허가건축물 구분 : 89.1.24. 기준</li><li>평가액 — 원가법에 의하여 평가</li></ol>
+            </li>
+            <li><span class="htitle">구분건물의 평가액</span>
+              <ol class="num"><li>처리방침 : 「감정평가에 관한 규칙」 제16조 거래사례비교법</li><li>거래사례 선정 — 본건과 유사성(대지권 면적, 위치, 크기(전유면적), 건물의 신축연도 등 고려)을 기준하되, 평가목적을 고려하여 선정</li><li>비준가액</li></ol>
+            </li>
+          </ol>
+        </div>
+      </article>
+
+      <article class="topic" id="t51" data-title="도시정비평가 - 종후자산평가" data-group="L">
+        <div class="topic-tab"><span class="n">51</span><span class="l">정비</span></div>
+        <div class="topic-body">
+          <h2>도시정비평가 - 종후자산평가</h2>
+          <ol class="roman">
+            <li><span class="htitle">평가개요</span>도정법 제74조 / 기준시점 : 분양신청기간 만료일 또는 의뢰인 제시일</li>
+            <li><span class="htitle">거래사례비교법에 의한 평가액</span>기준세대의 기준단가 결정</li>
+            <li><span class="htitle">정비사업비 추산액을 통한 검토</span>(원가법)</li>
+            <li><span class="htitle">기준세대의 기준단가 결정</span>층·호별 효용비에 의하여 각 세대별 배분</li>
+          </ol>
+        </div>
+      </article>
+
+      <article class="topic" id="t52" data-title="도시정비평가 - 재건축 매도청구에 따른 감정평가" data-group="L">
+        <div class="topic-tab"><span class="n">52</span><span class="l">정비</span></div>
+        <div class="topic-body">
+          <h2>도시정비평가 - 재건축 매도청구에 따른 감정평가</h2>
+          <ol class="roman">
+            <li><span class="htitle">평가개요</span>도정법 제64조 / 기준시점 : 매매계약체결 의제일 / 재건축사업으로 인하여 발생되는 개발이익이 포함된 시가기준. 기준시점에 현실화·구체화되지 아니한 개발이익이나 조합원의 비용부담을 전제로 한 개발이익은 배제(실무기준)</li>
+            <li><span class="htitle">평가액</span></li>
+          </ol>
+        </div>
+      </article>
+
+      <article class="topic" id="t53" data-title="도시정비평가 - 무상양수도평가" data-group="L">
+        <div class="topic-tab"><span class="n">53</span><span class="l">정비</span></div>
+        <div class="topic-body">
+          <h2>도시정비평가 - 무상양수도평가</h2>
+          <ol class="roman">
+            <li><span class="htitle">평가개요</span>「도시정비법」 제97조 / 기준시점 : 사업시행인가고시(예정)일</li>
+            <li><span class="htitle">용도가 폐지되는 정비기반시설의 평가</span>
+              <ol class="num"><li>비교표준지 선정 — 해당 사업으로 인한 도시계획시설 지정은 구애됨 없이 평가, 종전의 용도는 폐지된 바 인근의 대지수준으로 평가</li><li>평가액 결정</li></ol>
+            </li>
+            <li><span class="htitle">새로이 설치되는 정비기반시설의 평가</span>
+              <ol class="num"><li>비교표준지 선정 — 해당 사업으로 인한 도시계획시설은 구애됨 없이 평가</li><li>평가액 결정</li></ol>
+            </li>
+          </ol>
+        </div>
+      </article>
+
+      <article class="topic" id="t54" data-title="도시정비평가 - 현금청산평가(재개발)" data-group="L">
+        <div class="topic-tab"><span class="n">54</span><span class="l">정비</span></div>
+        <div class="topic-body">
+          <h2>도시정비평가 - 현금청산평가(재개발)</h2>
+          <ol class="roman">
+            <li><span class="htitle">평가개요</span>「도시정비법」 제73조에 따라 현금청산 / 제63조, 제65조에 의하여 토지보상법 준용 / 기준시점 : 의뢰된 날짜기준(협의예정일)</li>
+            <li><span class="htitle">토지의 평가액</span>(공시지가기준법)
+              <ol class="num"><li>적용공시지가 — 사업시행인가고시일 이전 최근 공시지가</li><li>비교표준지 선정 — 해당 사업으로 인한 용도지역 변경은 반영하지 않음</li><li>그 밖의 요인비교치 결정 — 보상평가선례 및 실거래사례 기준(해당 사업으로 인한 영향 없는 사례)</li><li>평가액 결정</li></ol>
+            </li>
+            <li><span class="htitle">건물의 평가액</span>
+              <ol class="num"><li>처리방침 — 이전비 기준, 대부분 취득가격(원가법)으로 평가</li><li>평가액</li></ol>
+            </li>
+          </ol>
+        </div>
+      </article>
+
+      <article class="topic" id="t55" data-title="도시정비평가 - 국공유재산 처분" data-group="L">
+        <div class="topic-tab"><span class="n">55</span><span class="l">정비</span></div>
+        <div class="topic-body">
+          <h2>도시정비평가 - 국공유재산 처분</h2>
+          <ol class="roman">
+            <li><span class="htitle">평가개요</span>「도시정비법」 제98조 / 「국유재산법 시행령」 제42조, 「공유물품 및 관리에 관한 법률 시행령」 제27조(일반재산가격의 평정 등)<br>기준시점 : 사업시행인가 3년 이내 매각 시(사업시행인가고시일), 3년 이후 매각 시(가격조사완료일)</li>
+            <li><span class="htitle">토지의 평가액</span>(공시지가기준법)
+              <ol class="num">
+                <li>적용공시지가 <ol class="paren"><li>3년 이내 매각의 경우 : 사업시행인가고시일 이전 최근 공시지가</li><li>3년 이후 매각의 경우 : 최근 공시지가</li></ol></li>
+                <li>비교표준지 선정 <ol class="paren"><li>3년 이내 매각의 경우 : 사업시행인가고시 시점의 시가를 반영할 수 있는 표준지 선정</li><li>3년 이후 매각의 경우 : 현황을 기준으로 한 표준지 선정</li></ol></li>
+                <li>평가액 결정</li>
+              </ol>
+            </li>
+          </ol>
+        </div>
+      </article>
+
+      <!-- ================================================================ -->
+      <!-- GROUP M : 보상감정평가 - 토지/특수토지 -->
+      <div class="group-heading" data-group="M"><span class="gtag">M</span><h2>보상감정평가 · 토지</h2></div>
+
+      <article class="topic" id="t56" data-title="보상감정평가 - 토지" data-group="M">
+        <div class="topic-tab"><span class="n">56</span><span class="l">보상</span></div>
+        <div class="topic-body">
+          <h2>보상감정평가 - 토지</h2>
+          <ol class="roman">
+            <li><span class="htitle">평가개요</span>
+              <p class="note">본건은 (보상대상 물건)에 대한 (사업시행자)가 시행하는 (사업명)에 대한 (협의/수용재결/이의재결)보상목적의 감정평가<br>사업인정일 : 20××년 ×월 ××일 &nbsp;|&nbsp; 가격시점 : <span class="ref">법 제67조</span><br>해당 사업 의한 공법상 제한 및 개별제한 미고려(규칙 제23조)<br>(도로사업일 경우) 법 제70조 제5항, 영 제38조의2, 영 제37조 제3항 검토 불요</p>
+            </li>
+            <li><span class="htitle">적용공시지가 선정</span>「토지보상법」 제70조 제3항, 제4항, 제5항 적용</li>
+            <li><span class="htitle">비교표준지 선정</span>용도지역·이용상황·주위환경 유사, 지리적 가까운 표준지 선정(규칙 제22조 제3항)</li>
+            <li><span class="htitle">시점수정치</span><ol class="num"><li>지가변동률</li><li>생산자물가지수</li><li>결정</li></ol></li>
+            <li><span class="htitle">지역 및 개별요인 비교치</span></li>
+            <li><span class="htitle">그 밖의 요인비교치 결정</span><ol class="num"><li>평가선례(혹은 거래사례) 선정</li><li>격차율 산정</li><li>그 밖의 요인보정치 결정</li><li>실거래사례 등을 통한 적정성 검토</li></ol></li>
+            <li><span class="htitle">보상평가액</span><div class="formula">표준지공시지가(원/㎡) × 시점수정치 × 지역요인 비교치 × 개별요인 비교치 × 그 밖의 요인비교치 ≒ 토지보상평가액</div></li>
+          </ol>
+        </div>
+      </article>
+
+      <article class="topic" id="t57" data-title="특수토지 보상감정평가" data-group="M">
+        <div class="topic-tab"><span class="n">57</span><span class="l">보상</span></div>
+        <div class="topic-body">
+          <h2>특수토지 보상감정평가</h2>
+          <ol class="roman">
+            <li><span class="htitle">무허가건축물부지</span>「토지보상법 시행규칙」 제24조<br>의의 : 허가나 신고의무가 있음에도 이를 받거나 하지 않고 건축 또는 용도변경한 건축물이 있는 토지</li>
+            <li><span class="htitle">불법형질변경토지</span>「토지보상법 시행규칙」 제24조<br>의의 : 허가나 신고의무가 있음에도 이를 받거나 하지 않고 형질변경한 토지</li>
+            <li><span class="htitle">미지급용지</span>「토지보상법 시행규칙」 제25조<br>의의 : 종전 시행된 공익사업의 부지로서 보상금이 지급되지 않은 토지</li>
+            <li><span class="htitle">도로부지 감정평가</span>「토지보상법 시행규칙」 제26조
+              <p class="callout">사도법상 사도 : 인근 토지가액 <b>1/5</b> 이내 &nbsp;&nbsp; 사실상 사도 : 인근 토지가액 <b>1/3</b> 이내<br>(인근 토지 : 도로로 이용되지 아니하였을 경우에 예상되는 표준적인 이용상황의 토지로서 위치상 가까운 토지, 규칙 제26조 제4항)<br>공도부지 : 인근 표준적 이용상황 기준 &nbsp;|&nbsp; 예정공도 : 공도부지평가 준용</p>
+            </li>
+          </ol>
+        </div>
+      </article>
+
+      <article class="topic" id="t59" data-title="잔여지 가치하락 손실보상" data-group="M">
+        <div class="topic-tab"><span class="n">59</span><span class="l">보상</span></div>
+        <div class="topic-body">
+          <h2>잔여지 가치하락 손실보상</h2>
+          <ol class="roman">
+            <li><span class="htitle">평가개요</span>「토지보상법」 제73조 / 「토지보상법 시행규칙」 제32조</li>
+            <li><span class="htitle">편입전 잔여지가격</span>
+              <ol class="num">
+                <li>일단의 토지가격 <ol class="paren"><li>적용공시지가 : 편입된 토지와 동일한 기준</li><li>비교표준지 선정 : 편입된 토지와 동일한 기준</li><li>시점수정치</li><li>지역 및 개별요인 비교치 — 해당사업으로 인한 영향 미고려</li><li>그 밖의 요인 보정치</li><li>일단의 토지가격</li></ol></li>
+                <li>편입부분의 토지가격</li>
+                <li>편입전 잔여지가격 — 일단의 토지가격 − 편입부분의 토지가격</li>
+              </ol>
+            </li>
+            <li><span class="htitle">편입후 잔여지가격</span>
+              <ol class="num"><li>적용공시지가 : 편입된 토지와 동일한 기준</li><li>비교표준지 선정 : 편입된 토지와 동일한 기준</li><li>시점수정치</li><li>지역 및 개별요인 비교치 — 개별요인 비교 시 : 사업시행이익 상계금지의 원칙(토지보상법 제66조)에 의하여 열세해진 개별요인만 반영한다.</li><li>그 밖의 요인비교치</li><li>편입후 잔여지가격</li></ol>
+            </li>
+            <li><span class="htitle">잔여지의 가치하락분</span><div class="formula">편입전 잔여지가격 − 편입후 잔여지가격</div><p class="note">(잔여지가격과 비교하여 매수가능 여부 판단, 법 제73조 제1항 단서)</p></li>
+          </ol>
+        </div>
+      </article>
+
+      <article class="topic" id="t60" data-title="개간비의 보상평가" data-group="M">
+        <div class="topic-tab"><span class="n">60</span><span class="l">보상</span></div>
+        <div class="topic-body">
+          <h2>개간비의 보상평가</h2>
+          <ol class="roman">
+            <li><span class="htitle">평가개요</span>「토지보상법 시행규칙」 제27조 / 개간비 보상요건 검토(국공유지, 적법하게 개간, 계속점유 등, 실질적 토지가치 상승)</li>
+            <li><span class="htitle">개간 후 토지가격</span><ol class="num"><li>적용공시지가 선택 및 비교표준지 선정</li><li>개간된 토지가격</li></ol></li>
+            <li><span class="htitle">개간비 보상액</span>
+              <ol class="num">
+                <li>개간에 소요되는 통상비용 — 가격시점에서 개간에 소요되는 통상비용. 알 수 없는 경우 : 정형화 비율에 의함(개간 후 토지가치의 1/3(비도시지역), 1/5(녹지지역), 1/10(주거·상업·공업지역))</li>
+                <li>한도액(상한) <ol class="paren"><li>개간 후 토지가격</li><li>개간 전 토지가격</li><li>한도액 : (1) − (2)</li></ol></li>
+                <li>개간비 보상액</li>
+              </ol>
+            </li>
+            <li><span class="htitle">개간지 보상액</span>(토지소유자 : 국가, 지방자치단체 등)<div class="formula">개간 후 토지가격 − 개간비 보상액</div></li>
+          </ol>
+        </div>
+      </article>
+
+      <article class="topic" id="t61" data-title="환매금액 산정" data-group="M">
+        <div class="topic-tab"><span class="n">61</span><span class="l">보상</span></div>
+        <div class="topic-body">
+          <h2>환매금액 산정</h2>
+          <ol class="roman">
+            <li><span class="htitle">평가개요</span>「토지보상법」 제91조 / 환매 당시 토지가격과 “보상금 × 인근 유사토지 지가변동률”을 비교하여 결정(영 제48조)</li>
+            <li><span class="htitle">환매 당시 토지가격</span><ol class="num"><li>적용공시지가 : 최근 기준</li><li>비교표준지 선정 : 현재 용도지역 및 이용상황기준</li><li>그 밖의 요인비교치</li><li>환매 당시 토지가격</li></ol></li>
+            <li><span class="htitle">인근 유사토지 지가변동률</span>
+              <ol class="num"><li>표본지 선정 — 해당 사업과 무관한 표준지 선정, 해당 사업과 무관한 용도지역 등 변경은 반영</li><li>취득 당시 표본지가격</li><li>환매 당시 표본지가격</li><li>인근 유사 지가변동률</li></ol>
+            </li>
+            <li><span class="htitle">환매금액 결정</span>
+              <ol class="num">
+                <li>환매 당시 적정가격 ≤ 보상금액 × 인근 유사토지 지가변동률 → 지급한 보상금액</li>
+                <li>환매 당시 적정가격 &gt; 보상금액 × 인근 유사토지 지가변동률 → 보상금액 + {환매 당시 평가가격 − 보상금 × (1 + 인근 유사토지 지가변동률)}</li>
+              </ol>
+            </li>
+          </ol>
+        </div>
+      </article>
+
+      <!-- ================================================================ -->
+      <!-- GROUP N : 보상감정평가 - 지장물/영업 -->
+      <div class="group-heading" data-group="N"><span class="gtag">N</span><h2>보상감정평가 · 지장물 · 영업손실</h2></div>
+
+      <article class="topic" id="t62" data-title="보상감정평가 - 건축물 등" data-group="N">
+        <div class="topic-tab"><span class="n">62</span><span class="l">보상</span></div>
+        <div class="topic-body">
+          <h2>보상감정평가 - 건축물 등</h2>
+          <ol class="roman">
+            <li><span class="htitle">평가개요</span>이전비 원칙, 예외적 가격으로 보상(법 제75조 제1항)</li>
+            <li><span class="htitle">이전비</span>「토지보상법 시행규칙」 제2조(정의) 제4호<br>유용성을 동일하게 유지하면서 사업지 밖으로 이전·이설·이식하는 데 필요한 비용. 해체비·건축허가비·운반비 포함, 시설개선비 제외</li>
+            <li><span class="htitle">해당 물건의 가격</span>(규칙 제33조 제2항)<br>원가법 원칙. 주거용 건축물의 경우 거래사례비교법 적용 가능(사업시행에 따른 가격상승분 제외), 최저한도액 <b>600만원</b>(규칙 제58조 제1항). 집합건물은 거래사례비교법 적용</li>
+            <li><span class="htitle">보상평가액 결정</span></li>
+          </ol>
+        </div>
+      </article>
+
+      <article class="topic" id="t63" data-title="공작물 평가(규칙 제36조)" data-group="N">
+        <div class="topic-tab"><span class="n">63</span><span class="l">보상</span></div>
+        <div class="topic-body">
+          <h2>공작물 평가(규칙 제36조)</h2>
+          <p class="plain">– 건축물 평가(규칙 제33조~제35조) 준용</p>
+          <p class="plain">– 경제적 가치 없는 경우, 토지가치에 화체된 경우, 대체시설을 하는 경우 평가 외</p>
+        </div>
+      </article>
+
+      <article class="topic" id="t64" data-title="건축물의 일부편입에 따른 보상감정평가" data-group="N">
+        <div class="topic-tab"><span class="n">64</span><span class="l">보상</span></div>
+        <div class="topic-body">
+          <h2>건축물의 일부편입에 따른 보상감정평가</h2>
+          <ol class="roman">
+            <li><span class="htitle">보수하여 사용하는 경우</span>
+              <ol class="num">
+                <li>편입부분의 감정평가액 — 일반적 건축물보상과 동일</li>
+                <li>보수비 : 종래 목적대로 사용할 수 있도록 유용성을 동일하게 유지하는 데 통상 필요한 비용, 시설개선비 제외(규칙 제35조)</li>
+                <li>잔여건축물의 가치감소분 — 편입 전 잔여건축물가격 − 편입 후 잔여건축물가격(규칙 제35조)</li>
+              </ol>
+            </li>
+            <li><span class="htitle">전체 이전 또는 취득의 경우</span>
+              <ol class="num"><li>전체 이전비 — 일반적 건축물보상과 동일</li><li>전체 취득가격 — 일반적 건축물보상과 동일</li><li>결정</li></ol>
+            </li>
+          </ol>
+        </div>
+      </article>
+
+      <article class="topic" id="t65" data-title="과수의 보상감정평가" data-group="N">
+        <div class="topic-tab"><span class="n">65</span><span class="l">보상</span></div>
+        <div class="topic-body">
+          <h2>과수의 보상감정평가</h2>
+          <ol class="roman">
+            <li><span class="htitle">평가개요</span>시행규칙 제37조<br>수종·규격·수령·수량·식수면적·관리상태·수익성·이식가능성 및 이식의 난이도 그 밖에 가격형성에 관련되는 제 요인을 종합 고려 평가</li>
+            <li><span class="htitle">이전비</span>
+              <ol class="num"><li>이식비 — 굴취비, 상하차비, 운반비, 식재비 등</li><li>고손액 — 주당가격 × 고손율(이식부적기인 경우 2배)</li><li>감수액 — 주당수익 × (1 − 고손율) × 2.2</li><li>합계 : 이식비 + 고손액 + 감수액</li></ol>
+            </li>
+            <li><span class="htitle">해당 물건의 가격</span>(나무의 가격)</li>
+            <li><span class="htitle">보상평가액</span>이전비와 가격 중 낮은 가격</li>
+          </ol>
+        </div>
+      </article>
+
+      <article class="topic" id="t66" data-title="입목의 보상감정평가" data-group="N">
+        <div class="topic-tab"><span class="n">66</span><span class="l">보상</span></div>
+        <div class="topic-body">
+          <h2>입목의 보상감정평가</h2>
+          <ol class="roman">
+            <li><span class="htitle">평가개요</span>시행규칙 제39조 — 벌기령·수종·주수·면적 및 수익성 그 밖에 가격형성에 관련되는 제 요인을 종합 고려 평가</li>
+            <li><span class="htitle">벌채시기인지 여부의 판단</span></li>
+            <li><span class="htitle">평가액</span>
+              <ol class="num">
+                <li>벌채시기에 달한 경우 — 보상 없음</li>
+                <li>벌채시기에 달하지 않은 경우 <ol class="paren"><li>거래가격이 있는 경우 — 거래가격 − 벌채비용 − 운반비</li><li>거래가격이 없는 경우 — 소요비용의 현가액, 예상총수입 현가 − 장래투하비용 현가</li></ol></li>
+              </ol>
+            </li>
+          </ol>
+        </div>
+      </article>
+
+      <article class="topic" id="t67" data-title="농작물의 보상감정평가" data-group="N">
+        <div class="topic-tab"><span class="n">67</span><span class="l">보상</span></div>
+        <div class="topic-body">
+          <h2>농작물의 보상감정평가</h2>
+          <ol class="roman">
+            <li><span class="htitle">평가개요</span>농작물의 손실은 농작물의 종류 및 성숙도 등을 종합적으로 고려(시행규칙 제41조)</li>
+            <li><span class="htitle">수확기에 달했는지 여부</span></li>
+            <li><span class="htitle">평가액</span>
+              <ol class="num">
+                <li>수확기에 다다른 경우 — 보상 없음</li>
+                <li>수확기 이전인 경우(가격으로 보상) <ol class="paren"><li>거래가격이 존재하는 경우 : 거래가격</li><li>거래가격이 존재하지 않는 경우 — 소요비용의 현가액, 예상총수입 현가 − 장래투하비용 현가 − 상품화가능한 가격</li></ol></li>
+                <li>파종 중인 경우 — 투하된 비용 현가</li>
+              </ol>
+            </li>
+          </ol>
+        </div>
+      </article>
+
+      <article class="topic" id="t68" data-title="보상감정평가 - 영업손실(휴업)" data-group="N">
+        <div class="topic-tab"><span class="n">68</span><span class="l">보상</span></div>
+        <div class="topic-body">
+          <h2>보상감정평가 - 영업손실(휴업)</h2>
+          <ol class="roman">
+            <li><span class="htitle">평가개요</span>「토지보상법 시행규칙」 제45조 및 제47조</li>
+            <li><span class="htitle">보상대상 여부</span>(규칙 제45조) — 영업보상의 요건 판단(시간적 요건, 장소적 요건, 시설적 요건, 계속요건, 허가등 요건)</li>
+            <li><span class="htitle">휴업기간 중 영업이익</span>(규칙 제47조)
+              <ol class="num"><li>손익계산서상 영업이익 : 3년치를 평균하여 결정</li><li>최저한도액(개인영업의 경우) : 휴업기간 중 3인 가구 도시근로자 가계지출비</li><li>휴업기간 중 영업이익</li></ol>
+            </li>
+            <li><span class="htitle">고정적 비용 등</span>인건비, 제세공과금, 감가상각비, 광고비, 보험료, 임차료 등 실제 휴업기간 중 소요될 것으로 예상되는 금액</li>
+            <li><span class="htitle">영업시설의 이전비 등</span></li>
+            <li><span class="htitle">영업장소 이전 후 발생하는 영업이익 감소액</span>휴업기간 중 영업이익의 20%(상한 1천만원)</li>
+            <li><span class="htitle">영업손실보상액</span><div class="formula">휴업기간 중 영업이익 + 휴업기간 중 고정적 경비 + 영업장소 이전 후 발생하는 영업이익 감소액 + 그 밖의 부대비용 + 이전비 등(이전비 + 감손상당액)</div></li>
+          </ol>
+        </div>
+      </article>
+
+      <article class="topic" id="t69" data-title="보상감정평가 - 영업손실(휴업, 일부편입)" data-group="N">
+        <div class="topic-tab"><span class="n">69</span><span class="l">보상</span></div>
+        <div class="topic-body">
+          <h2>보상감정평가 - 영업손실(휴업, 일부편입)</h2>
+          <ol class="roman">
+            <li><span class="htitle">평가개요</span>「토지보상법 시행규칙」 제47조 제3항</li>
+            <li><span class="htitle">일부편입(보수)에 의한 보상평가액</span>
+              <ol class="num"><li>해당 시설의 설치 등에 소요되는 기간의 영업이익</li><li>해당 시설의 설치 등에 통상 소요되는 비용</li><li>영업규모의 축소에 따른 영업용 고정자산·원재료·제품 및 상품 등의 매각손실액</li><li>보수기간 중 고정적 비용</li></ol>
+            </li>
+            <li><span class="htitle">이전(휴업)에 의한 보상평가액</span>(상한)</li>
+            <li><span class="htitle">보상평가액</span>양자 중 작은 금액으로 결정</li>
+          </ol>
+        </div>
+      </article>
+
+      <article class="topic" id="t70" data-title="보상감정평가 - 영업손실(폐업)" data-group="N">
+        <div class="topic-tab"><span class="n">70</span><span class="l">보상</span></div>
+        <div class="topic-body">
+          <h2>보상감정평가 - 영업손실(폐업)</h2>
+          <ol class="roman">
+            <li><span class="htitle">평가개요</span>「토지보상법 시행규칙」 제45조 및 제46조<br>폐업보상 요건 검토(배후지 특수성으로 이전불가, 법적으로 이전불가, 혐오시설로서 사실상 이전불가 中 하나에 해당, 규칙 제46조)</li>
+            <li><span class="htitle">연간 영업이익 결정</span>
+              <ol class="num"><li>손익계산서상 영업이익 — 3년치를 평균하여 결정</li><li>최저한도액(개인영업의 경우) — 보통인부 노임단가 × 25일 × 12월</li><li>연간 영업이익 결정</li></ol>
+            </li>
+            <li><span class="htitle">고정자산 매각손실액</span><div class="formula">매각손실액 = 평가가액 − 처분가액</div><p class="note">산정 곤란 시 : 평가액의 60% 이내</p></li>
+            <li><span class="htitle">재고자산 매각손실액</span><div class="formula">매각손실액 = 평가가액 − 처분가액</div><p class="note">산정 곤란 시 : 평가액의 20% 이내(수요성 있는 제품·상품·신품 원재료), 50% 이내(수요성 없는 제품·상품·사용 중인 원재료), 60%(반제품·재공품·저장품)</p></li>
+            <li><span class="htitle">폐업보상액 결정</span><div class="formula">연간 영업이익 × 2년 + 고정자산 매각손실액 + 재고자산 매각손실액</div></li>
+          </ol>
+        </div>
+      </article>
+
+      <!-- ================================================================ -->
+      <!-- GROUP O : 보상감정평가 - 농업·어업·광업·축산 -->
+      <div class="group-heading" data-group="O"><span class="gtag">O</span><h2>보상감정평가 · 농업·어업·광업·축산</h2></div>
+
+      <article class="topic" id="t71" data-title="농업손실보상감정평가" data-group="O">
+        <div class="topic-tab"><span class="n">71</span><span class="l">보상</span></div>
+        <div class="topic-body">
+          <h2>농업손실보상감정평가</h2>
+          <ol class="roman">
+            <li><span class="htitle">농업손실보상의 대상 여부</span>법 제77조 제2항 / 규칙 제48조</li>
+            <li><span class="htitle">농업손실액 산정방법 - 원칙</span>도별 단위경작면적당 농작물 총수입 3년치 평균의 2년분</li>
+            <li><span class="htitle">농업손실보상액 산정방법 - 실제소득 인정되는 경우</span>원칙 − 3년간 실제소득 평균의 2년분. 작목별 평균소득의 2배 초과하는 경우 : 평균생산량의 2배까지만 인정</li>
+            <li><span class="htitle">자경농지가 아닌 경우 농업손실보상액의 배분</span></li>
+          </ol>
+        </div>
+      </article>
+
+      <article class="topic" id="t72" data-title="보상감정평가 - 어업권" data-group="O">
+        <div class="topic-tab"><span class="n">72</span><span class="l">보상</span></div>
+        <div class="topic-body">
+          <h2>보상감정평가 - 어업권</h2>
+          <ol class="roman">
+            <li><span class="htitle">평가개요</span>「토지보상법 시행규칙」 제44조 / 「수산업법 시행령」 [별표 10]<br>“어업권”이란 수산업법 제7조 및 내수면어업법 제6조에 따른 면허를 받아 어업을 경영할 수 있는 권리를 말한다(실무기준).</li>
+            <li><span class="htitle">평년수익액</span>
+              <ol class="num">
+                <li>평균연간어획량 — 소급 기산은 처분일이 속한 전년도를 기준하되, 현저히 변동 시 1년간씩 소급 / 어획실적 3년 미달인 경우 동종의 실적기간 어획량과 3년 평균연간어획량 고려</li>
+                <li>평균연간판매단가 — 보상액의 산정을 위한 평가시점 현재를 기준으로 하여 소급 기산한 1년 동안의 수산물별 평균판매단가</li>
+                <li>평년어업경비</li>
+                <li>결정</li>
+              </ol>
+            </li>
+            <li><span class="htitle">어선, 어구 등 시설물 잔존가액</span>(보상청구 시 한함)</li>
+            <li><span class="htitle">보상액</span>
+              <ol class="num"><li>면허어업 : 평년수익액 ÷ 0.12 + 어선, 어구 등 시설물 잔존가액</li><li>허가·신고어업 : 평년수익액 × 3년 + 어선, 어구 등 시설물 잔존가액</li></ol>
+            </li>
+          </ol>
+        </div>
+      </article>
+
+      <article class="topic" id="t73" data-title="보상감정평가 - 광업권" data-group="O">
+        <div class="topic-tab"><span class="n">73</span><span class="l">보상</span></div>
+        <div class="topic-body">
+          <h2>보상감정평가 - 광업권</h2>
+          <ol class="roman">
+            <li><span class="htitle">평가개요</span>「토지보상법 시행규칙」 제43조 — “광업권”이란 탐사권과 채굴권을 말한다(실무기준).</li>
+            <li><span class="htitle">광산평가액</span>
+              <ol class="num">
+                <li>연수익(상각전 순수익) — 사업수익 − 소요경비</li>
+                <li>가행연수의 산정(n) — 예상 추정량 ÷ 연간 채광량</li>
+                <li>각종 이율의 산정 <ol class="paren"><li>세전배당이율(S)</li><li>축적이율(i)</li></ol></li>
+                <li>장래소요기업비현가(E)</li>
+                <li>광산평가액 — Hoskold법에 의한 수익가격 − E</li>
+              </ol>
+            </li>
+            <li><span class="htitle">광업권 보상액</span>
+              <ol class="num"><li>광산평가액</li><li>이전 또는 전용가능시설 잔존가치</li><li>이전비</li><li>보상액</li></ol>
+            </li>
+          </ol>
+        </div>
+      </article>
+
+      <article class="topic" id="t74" data-title="축산업 보상(규칙 제49조)" data-group="O">
+        <div class="topic-tab"><span class="n">74</span><span class="l">보상</span></div>
+        <div class="topic-body">
+          <h2>축산업 보상(규칙 제49조)</h2>
+          <ol class="roman">
+            <li><span class="htitle">평가개요</span>규칙 제49조에 의함 / 규칙 제45조~제47조 준용(영업장소 이전 후 발생하는 영업이익 감소액은 준용 제외)</li>
+            <li><span class="htitle">보상대상 여부</span>영업손실보상대상 요건 충족, [별표 3] 기준마리수 이상 사육</li>
+            <li><span class="htitle">평가액</span><div class="formula">휴업기간 중 영업이익(하한 미고려) + 휴업기간 중 고정적 경비 + 그 밖의 부대비용 + 이전비 및 감손상당액</div></li>
+          </ol>
+        </div>
+      </article>
+
+      <!-- ================================================================ -->
+      <!-- GROUP P : 이주대책 -->
+      <div class="group-heading" data-group="P"><span class="gtag">P</span><h2>생활보상 · 이주대책</h2></div>
+
+      <article class="topic" id="t75" data-title="이주정착금 등의 보상" data-group="P">
+        <div class="topic-tab"><span class="n">75</span><span class="l">보상</span></div>
+        <div class="topic-body">
+          <h2>이주정착금 등의 보상</h2>
+          <ol class="roman">
+            <li><span class="htitle">이주정착금</span>(규칙 제53조)<div class="formula">주거용 건축물 평가액 × 30% (하한 1,200만원 ~ 상한 2,400만원)</div></li>
+            <li><span class="htitle">주거이전비</span>(규칙 제54조)
+              <ol class="num">
+                <li>소유자(제1항) — 주거용 건축물에 실제 거주 : 2月분 도시근로자가구 가계지출비 / 무허가건축물에 실제 거주 : 보상 ×</li>
+                <li>세입자(제2항) — 주거용 건축물에 고시 등이 있은 당시 3개월 거주 : 4月분 / 무허가 건축물에 고시 등이 있은 당시 1년 거주 : 4月분</li>
+              </ol>
+            </li>
+            <li><span class="htitle">이사비</span>(규칙 제55조)<br>주거용 건축물 거주자가 사업지구 밖으로 이사하는 경우 동산에 대해 이사비 보상</li>
+          </ol>
+        </div>
+      </article>
+
+    </div>
+
+    <footer class="doc-footer">
+      원자료 : 유도은 편저, 「S+감정평가실무연습」 2차 기본문제 답안 목차집 (박문각 감정평가사) · 본 페이지는 학습용 단권화 재구성본이며 시험 대비용 목차 암기 보조자료입니다. 최신 법령·실무기준 개정 여부는 반드시 원서 및 공식 법령정보센터에서 재확인하세요.
+    </footer>
+  </div>
+</div>
+
+<a href="#top" class="back-top" id="backTop">↑</a>
+
+<script>
+/* ---------- Group / TOC definitions ---------- */
+const groups = [
+  {id:"A", tag:"A", title:"답안작성 총론", items:[["01","감정평가실무 답안작성 FAQ"]]},
+  {id:"B", tag:"B", title:"토지 평가방법론", items:[
+    ["02","공시지가기준법"],["03","거래사례비교법(토지)"],["06","조성원가법(토지)"],
+    ["07","토지의 개발법(건축 후 분양)"],["08","토지의 개발법(택지조성 후 분양)"],
+    ["11","회귀분석법"],["12","대쌍비교법"],["17","토지잔여법"],["19","부동산잔여법"],
+    ["20","임대사례비교법"],["21","적산법"],["22","수익분석법"]
+  ]},
+  {id:"C", tag:"C", title:"건물 평가방법론", items:[
+    ["04","원가법(건물)"],["05","감가수정 - 분해법"],["09","거래사례비교법(건물)"],["18","건물잔여법"]
+  ]},
+  {id:"D", tag:"D", title:"토지·건물 일괄평가", items:[["10","일괄거래사례비교법(토지·건물)"]]},
+  {id:"E", tag:"E", title:"수익환원법 · DCF", items:[
+    ["13","수익환원법(직접환원법)"],["14","수익환원법(DCF, NOI)"],["15","수익환원법(DCF, BTCF)"],["16","수익환원법(DCF, ATCF)"]
+  ]},
+  {id:"F", tag:"F", title:"권리 관련 평가", items:[
+    ["23","임대차평가"],["24","구분소유권의 감정평가"],["25","구분지상권의 감정평가"],
+    ["26","지상권이 설정된 토지평가"],["58","소유권 외 권리의 목적이 되는 토지 등"]
+  ]},
+  {id:"G", tag:"G", title:"특수토지·특수물건 평가", items:[
+    ["27","광천지의 감정평가"],["28","과수원의 감정평가"],["29","입목의 감정평가"],
+    ["30","골프장의 감정평가"],["31","기계기구의 감정평가"],["39","선박의 감정평가"],["32","공장(재단)의 감정평가"]
+  ]},
+  {id:"H", tag:"H", title:"무형자산·권리 평가", items:[
+    ["33","광업권의 감정평가(일반)"],["34","어업권의 감정평가(일반)"],["35","영업권의 감정평가"],
+    ["36","특허권(지식재산권)의 감정평가"],["37","기업가치의 감정평가"],["38","비상장주식의 감정평가"]
+  ]},
+  {id:"I", tag:"I", title:"기타 물건 평가", items:[["40","권리금의 감정평가"],["41","소음 등 가치하락분의 감정평가"]]},
+  {id:"J", tag:"J", title:"투자·타당성 분석", items:[
+    ["42","투자의사결정"],["43","매후환대차의 의사결정"],["44","토지의 최유효이용 분석"],
+    ["45","개량물의 최유효이용 분석"],["46","복합부동산 - 철거타당성"]
+  ]},
+  {id:"K", tag:"K", title:"목적별 감정평가", items:[
+    ["47","담보목적 감정평가"],["48","경매목적 감정평가"],["49","국·공유재산의 감정평가"]
+  ]},
+  {id:"L", tag:"L", title:"도시정비평가", items:[
+    ["50","종전자산평가"],["51","종후자산평가"],["52","재건축 매도청구 감정평가"],
+    ["53","무상양수도평가"],["54","현금청산평가(재개발)"],["55","국공유재산 처분"]
+  ]},
+  {id:"M", tag:"M", title:"보상감정평가 · 토지", items:[
+    ["56","보상감정평가 - 토지"],["57","특수토지 보상감정평가"],["59","잔여지 가치하락 손실보상"],
+    ["60","개간비의 보상평가"],["61","환매금액 산정"]
+  ]},
+  {id:"N", tag:"N", title:"보상감정평가 · 지장물·영업", items:[
+    ["62","건축물 등"],["63","공작물 평가"],["64","건축물 일부편입"],["65","과수의 보상감정평가"],
+    ["66","입목의 보상감정평가"],["67","농작물의 보상감정평가"],["68","영업손실(휴업)"],
+    ["69","영업손실(휴업, 일부편입)"],["70","영업손실(폐업)"]
+  ]},
+  {id:"O", tag:"O", title:"보상감정평가 · 농/어/광/축", items:[
+    ["71","농업손실보상감정평가"],["72","어업권"],["73","광업권"],["74","축산업 보상"]
+  ]},
+  {id:"P", tag:"P", title:"생활보상·이주대책", items:[["75","이주정착금 등의 보상"]]},
+];
+
+const tocRoot = document.getElementById('tocRoot');
+groups.forEach((g,gi)=>{
+  const wrap = document.createElement('div');
+  wrap.className='toc-group'+(gi===0?' open':'');
+  wrap.dataset.group = g.id;
+  const btn = document.createElement('button');
+  btn.className='toc-group-btn';
+  btn.innerHTML = `<span class="tag">${g.tag}</span><span>${g.title}</span><span class="chev">›</span>`;
+  btn.onclick=()=>wrap.classList.toggle('open');
+  const list = document.createElement('ul');
+  list.className='toc-list';
+  g.items.forEach(([num,title])=>{
+    const li=document.createElement('li');
+    const a=document.createElement('a');
+    a.href='#t'+num;
+    a.dataset.target='t'+num;
+    a.innerHTML=`<span class="num">${num}</span><span>${title}</span>`;
+    li.appendChild(a);
+    list.appendChild(li);
+  });
+  wrap.appendChild(btn);
+  wrap.appendChild(list);
+  tocRoot.appendChild(wrap);
+});
+
+/* ---------- Search ---------- */
+const searchBox = document.getElementById('searchBox');
+const searchCount = document.getElementById('searchCount');
+const topics = Array.from(document.querySelectorAll('.topic'));
+
+searchBox.addEventListener('input', ()=>{
+  const q = searchBox.value.trim().toLowerCase();
+  let shown = 0;
+  // filter content
+  topics.forEach(t=>{
+    const hay = (t.dataset.title + ' ' + t.innerText).toLowerCase();
+    const match = q==='' || hay.includes(q);
+    t.style.display = match ? '' : 'none';
+    if(match) shown++;
+  });
+  // filter group headings (hide if no visible topic beneath before next heading)
+  document.querySelectorAll('.group-heading').forEach(gh=>{
+    const gid = gh.dataset.group;
+    const items = topics.filter(t=>t.dataset.group===gid);
+    const anyVisible = items.some(t=>t.style.display!=='none');
+    gh.style.display = anyVisible ? '' : 'none';
+  });
+  // filter sidebar toc links
+  document.querySelectorAll('.toc-list li a').forEach(a=>{
+    const id = a.dataset.target;
+    const t = document.getElementById(id);
+    const match = q==='' || (t && t.style.display!=='none');
+    a.classList.toggle('hide', !match);
+  });
+  document.querySelectorAll('.toc-group').forEach(gw=>{
+    const anyLink = gw.querySelectorAll('.toc-list li a:not(.hide)').length>0;
+    gw.classList.toggle('hide', !anyLink);
+    if(q!=='' && anyLink) gw.classList.add('open');
+  });
+  searchCount.textContent = q==='' ? '' : `${shown}개 항목 표시 중`;
+});
+
+/* ---------- Mobile sidebar toggle ---------- */
+const sidebar = document.getElementById('sidebar');
+document.getElementById('menuBtn').addEventListener('click', ()=>sidebar.classList.toggle('open'));
+
+/* ---------- Active link highlight on scroll ---------- */
+const links = Array.from(document.querySelectorAll('.toc-list li a'));
+const observer = new IntersectionObserver((entries)=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){
+      const id = entry.target.id;
+      links.forEach(a=>a.classList.toggle('active', a.dataset.target===id));
+      const link = links.find(a=>a.dataset.target===id);
+      if(link){
+        const grp = link.closest('.toc-group');
+        if(grp && !grp.classList.contains('open')) grp.classList.add('open');
+      }
+    }
+  });
+},{rootMargin:'-15% 0px -70% 0px'});
+topics.forEach(t=>observer.observe(t));
+
+/* ---------- Back to top ---------- */
+const backTop = document.getElementById('backTop');
+window.addEventListener('scroll', ()=>{
+  backTop.classList.toggle('show', window.scrollY > 600);
+});
+</script>
+</body>
+</html>
