@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>감정평가실무 단권화 시스템 v1.0</title>
+    <link rel="stylesheet" href="./style.css" />
+</head>
+
+<body>
+    <div id="app">
+        <header class="header">
+            <h1>단권화 시스템</h1>
+
+            <div class="toolbar">
+                <input id="searchInput" type="text" placeholder="검색 (제목 / 내용)" />
+                <button id="addBtn">+ 추가</button>
+                <button id="pdfBtn">PDF 저장</button>
+                <button id="backupBtn">백업</button>
+            </div>
+        </header>
+
+        <main class="layout">
+            <aside class="sidebar">
+                <div id="topicList"></div>
+            </aside>
+
+            <section class="content">
+                <div id="editor">
+                    <input id="titleInput" placeholder="제목" />
+                    <textarea id="contentInput" placeholder="내용"></textarea>
+
+                    <div class="editor-actions">
+                        <button id="saveBtn">저장 (Ctrl+S)</button>
+                        <button id="deleteBtn">삭제</button>
+                        <button id="copyBtn">복사</button>
+                        <button id="moveBtn">이동</button>
+                        <button id="favoriteBtn">⭐</button>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- 데이터 -->
+    <script type="module" src="./data.js"></script>
+    <script type="module" src="./storage.js"></script>
+    <script type="module" src="./search.js"></script>
+    <script type="module" src="./editor.js"></script>
+    <script type="module" src="./backup.js"></script>
+    <script type="module" src="./pdf.js"></script>
+    <script type="module" src="./app.js"></script>
+</body>
+</html>
